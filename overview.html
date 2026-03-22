@@ -4,35 +4,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ScrapConnect — Dashboard</title>
+    <title>ScrapConnect — Live Market</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@400;600;700;800&display=swap"
         rel="stylesheet" />
     <style>
-        :root {
-            --bg: #070a10;
-            --sidebar: #0b0e17;
-            --panel: #0f1420;
-            --card: #141826;
-            --card2: #1a1f30;
-            --border: rgba(255, 255, 255, 0.06);
-            --border2: rgba(255, 255, 255, 0.1);
-            --green: #00d97e;
-            --green2: rgba(0, 217, 126, 0.1);
-            --red: #ff4560;
-            --red2: rgba(255, 69, 96, 0.1);
-            --gold: #ffb800;
-            --gold2: rgba(255, 184, 0, 0.1);
-            --blue: #3d8bff;
-            --blue2: rgba(61, 139, 255, 0.1);
-            --purple: #a78bfa;
-            --text: #dde4f0;
-            --muted: #4a5568;
-            --muted2: #6b7a99;
-            --white: #fff;
-            --sidebar-w: 240px;
-        }
-
         *,
         *::before,
         *::after {
@@ -41,2501 +17,866 @@
             padding: 0
         }
 
+        :root {
+            --bg: #06080d;
+            --bg2: #0c0f18;
+            --card: #0f1320;
+            --border: rgba(255, 255, 255, .07);
+            --green: #00e676;
+            --red: #ff3d57;
+            --gold: #ffd740;
+            --blue: #448aff;
+            --text: #e8ecf5;
+            --muted: #5a6275;
+            --white: #fff;
+            --sidebar-w: 240px
+        }
+
         html,
         body {
             height: 100%;
-            overflow: hidden
-        }
-
-        body {
+            overflow: hidden;
             background: var(--bg);
             color: var(--text);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            display: flex
+            font-family: 'Syne', sans-serif
         }
 
-        /* ── SIDEBAR ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, .025) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .025) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0
+        }
+
         .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: var(--sidebar-w);
-            flex-shrink: 0;
-            background: var(--sidebar);
+            height: 100vh;
+            background: var(--bg2);
             border-right: 1px solid var(--border);
+            z-index: 100;
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            overflow-y: auto;
-            position: relative;
-            z-index: 10;
+            padding: 1.5rem 0
         }
 
         .sidebar-logo {
-            padding: 1.4rem 1.4rem 1rem;
+            padding: 0 1.5rem 1.5rem;
             border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem
         }
 
-        .logo-link {
-            text-decoration: none;
-            display: block;
-            transition: opacity 0.2s;
-        }
-
-        .logo-link:hover {
-            opacity: 0.8;
-        }
-
-        .logo-link:active {
-            transform: scale(0.98);
-        }
-
-        .logo-text {
+        .sidebar-logo .brand {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             letter-spacing: 3px;
             color: var(--gold)
         }
 
-        .logo-text span {
+        .sidebar-logo .brand span {
             color: var(--green)
         }
 
-        .logo-sub {
+        .sidebar-logo .role-tag {
             font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.6rem;
-            color: var(--muted2);
-            letter-spacing: 2px;
-            margin-top: 0.1rem
-        }
-
-        .sidebar-user {
-            padding: 1rem 1.2rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .user-avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--green), var(--blue));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 0.9rem;
-            color: #fff;
-            flex-shrink: 0;
-        }
-
-        .user-name {
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: var(--white)
-        }
-
-        .user-role {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.6rem;
-            color: var(--green);
+            font-size: .62rem;
+            color: var(--muted);
             letter-spacing: 1px;
-            margin-top: 0.1rem
-        }
-
-        .user-verified {
-            margin-left: auto;
-            font-size: 0.6rem;
-            background: var(--green2);
-            color: var(--green);
-            border: 1px solid rgba(0, 217, 126, 0.25);
-            padding: 0.15rem 0.4rem;
-            border-radius: 20px;
-            font-family: 'IBM Plex Mono', monospace;
+            margin-top: .2rem
         }
 
         .nav-section {
-            padding: 0.8rem 1rem 0.3rem
-        }
-
-        .nav-label {
+            padding: .4rem 1rem;
             font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.58rem;
+            font-size: .6rem;
             color: var(--muted);
             letter-spacing: 2px;
             text-transform: uppercase;
-            padding: 0 0.4rem;
-            margin-bottom: 0.4rem
+            margin-top: .5rem
         }
 
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 0.7rem;
-            padding: 0.6rem 0.8rem;
-            border-radius: 6px;
+            gap: .75rem;
+            padding: .7rem 1.5rem;
+            font-size: .85rem;
+            color: var(--muted);
             cursor: pointer;
-            transition: all 0.15s;
-            font-size: 0.82rem;
-            font-weight: 500;
-            color: var(--muted2);
-            margin-bottom: 1px;
+            transition: all .2s;
+            border-left: 3px solid transparent;
+            text-decoration: none
         }
 
         .nav-item:hover {
-            background: var(--card);
-            color: var(--text)
+            color: var(--text);
+            background: rgba(255, 255, 255, .03)
         }
 
         .nav-item.active {
-            background: linear-gradient(90deg, rgba(0, 217, 126, 0.12), transparent);
-            color: var(--white);
-            font-weight: 700;
-            border-left: 2px solid var(--green)
+            color: var(--green);
+            background: rgba(0, 230, 118, .06);
+            border-left-color: var(--green)
         }
 
-        .nav-item .ni {
-            width: 16px;
-            text-align: center;
-            font-size: 0.85rem
-        }
-
-        .nav-badge {
-            margin-left: auto;
-            font-size: 0.58rem;
-            background: var(--red);
-            color: #fff;
-            padding: 0.1rem 0.45rem;
-            border-radius: 10px;
-            font-family: 'IBM Plex Mono', monospace;
-            font-weight: 700;
-        }
-
-        .nav-badge.green {
-            background: var(--green);
-            color: var(--bg)
+        .nav-item .icon {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center
         }
 
         .sidebar-bottom {
             margin-top: auto;
-            padding: 1rem;
-            border-top: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border)
         }
 
-        .logout-btn {
-            width: 100%;
-            padding: 0.55rem;
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--muted2);
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border-radius: 4px;
-        }
-
-        .logout-btn:hover {
-            background: var(--red2);
-            border-color: var(--red);
-            color: var(--red)
-        }
-
-        /* ── MAIN ── */
-        .main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden
-        }
-
-        /* top bar */
-        .topbar {
-            padding: 0.8rem 2rem;
-            background: var(--sidebar);
-            border-bottom: 1px solid var(--border);
+        .user-pill {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            flex-shrink: 0;
+            gap: .75rem
         }
 
-        .page-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            color: var(--white)
-        }
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem
-        }
-
-        .topbar-stat {
-            text-align: right
-        }
-
-        .ts-val {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--green)
-        }
-
-        .ts-lbl {
-            font-size: 0.62rem;
-            color: var(--muted2)
-        }
-
-        .notif-btn {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: var(--card);
-            border: 1px solid var(--border);
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--green), var(--gold));
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            font-size: 0.9rem;
-            position: relative;
-            transition: background 0.2s;
-        }
-
-        .notif-btn:hover {
-            background: var(--card2)
-        }
-
-        .notif-dot {
-            position: absolute;
-            top: 6px;
-            right: 7px;
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--red);
-            border: 1px solid var(--sidebar);
-        }
-
-        /* content area */
-        .content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.5rem 2rem
-        }
-
-        /* ── TABS ── */
-        .view {
-            display: none
-        }
-
-        .view.active {
-            display: block
-        }
-
-        /* ── OVERVIEW ── */
-        .kpi-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 1.5rem
-        }
-
-        .kpi {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            padding: 1.2rem 1.4rem;
-            border-radius: 8px;
-            position: relative;
-            overflow: hidden;
-            transition: border-color 0.2s, transform 0.2s;
-        }
-
-        .kpi:hover {
-            border-color: var(--border2);
-            transform: translateY(-1px)
-        }
-
-        .kpi::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--accent, var(--green))
-        }
-
-        .kpi-label {
-            font-size: 0.7rem;
-            color: var(--muted2);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem
-        }
-
-        .kpi-val {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--white)
-        }
-
-        .kpi-change {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.68rem;
-            margin-top: 0.3rem
-        }
-
-        .kpi-icon {
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.8rem;
-            opacity: 0.12
-        }
-
-        .two-col {
-            display: grid;
-            grid-template-columns: 1.4fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem
-        }
-
-        .panel {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden
-        }
-
-        .panel-header {
-            padding: 0.9rem 1.2rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--card);
-        }
-
-        .panel-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--white);
-            letter-spacing: 0.5px
-        }
-
-        .panel-action {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.62rem;
-            color: var(--blue);
-            cursor: pointer;
-            letter-spacing: 1px;
-        }
-
-        .panel-action:hover {
-            color: var(--white)
-        }
-
-        /* activity list */
-        .act-item {
-            padding: 0.9rem 1.2rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: background 0.15s;
-        }
-
-        .act-item:last-child {
-            border-bottom: none
-        }
-
-        .act-item:hover {
-            background: var(--card)
-        }
-
-        .act-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            color: #000;
             flex-shrink: 0
         }
 
-        .act-info {
-            flex: 1
-        }
-
-        .act-title {
-            font-size: 0.8rem;
+        .user-name {
+            font-size: .82rem;
             font-weight: 600;
-            color: var(--white)
-        }
-
-        .act-sub {
-            font-size: 0.7rem;
-            color: var(--muted2);
-            margin-top: 0.1rem;
-            font-family: 'IBM Plex Mono', monospace
-        }
-
-        .act-amount {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.82rem;
-            font-weight: 700
-        }
-
-        .act-time {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.62rem;
-            color: var(--muted);
-            margin-top: 0.2rem
-        }
-
-        /* market mini cards */
-        .mini-market {
-            padding: 1rem 1.2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem
-        }
-
-        .mm-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.6rem 0.8rem;
-            background: var(--card2);
-            border-radius: 6px;
-            transition: background 0.15s;
-            cursor: pointer;
-        }
-
-        .mm-row:hover {
-            background: var(--card)
-        }
-
-        .mm-left {
-            display: flex;
-            align-items: center;
-            gap: 0.7rem
-        }
-
-        .mm-icon {
-            font-size: 1rem
-        }
-
-        .mm-name {
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--white)
-        }
-
-        .mm-price {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.78rem;
-            color: var(--white);
-            font-weight: 600
-        }
-
-        .mm-chg {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.65rem;
-            padding: 0.15rem 0.45rem;
-            border-radius: 3px
-        }
-
-        /* ── BUY / SELL ── */
-        .trade-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem
-        }
-
-        .trade-form-panel {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden
-        }
-
-        .form-body {
-            padding: 1.4rem
-        }
-
-        .field {
-            margin-bottom: 1.1rem
-        }
-
-        .field label {
-            display: block;
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: var(--muted2);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.45rem
-        }
-
-        .field input,
-        .field select,
-        .field textarea {
-            width: 100%;
-            background: var(--card2);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.85rem;
-            padding: 0.65rem 0.9rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .field input:focus,
-        .field select:focus,
-        .field textarea:focus {
-            border-color: var(--green)
-        }
-
-        .field select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7a99' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center
-        }
-
-        .field textarea {
-            resize: vertical;
-            min-height: 70px;
-            line-height: 1.6
-        }
-
-        .field-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.8rem
-        }
-
-        .price-estimate {
-            background: var(--card2);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 1rem;
-            margin-bottom: 1.1rem;
-        }
-
-        .pe-label {
-            font-size: 0.65rem;
-            color: var(--muted2);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem
-        }
-
-        .pe-val {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--white)
-        }
-
-        .pe-breakdown {
-            display: flex;
-            gap: 1rem;
-            margin-top: 0.4rem
-        }
-
-        .pe-b {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.65rem;
-            color: var(--muted2)
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 0.85rem;
-            border: none;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        .btn-buy {
-            background: linear-gradient(135deg, var(--blue), #2563eb);
-            color: #fff
-        }
-
-        .btn-buy:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(61, 139, 255, 0.3)
-        }
-
-        .btn-sell {
-            background: linear-gradient(135deg, var(--green), #00b368);
-            color: #000
-        }
-
-        .btn-sell:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(0, 217, 126, 0.3)
-        }
-
-        /* live bids panel */
-        .bids-list {
-            padding: 0
-        }
-
-        .bid-item {
-            padding: 0.85rem 1.2rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            transition: background 0.15s;
-            cursor: pointer;
-        }
-
-        .bid-item:last-child {
-            border-bottom: none
-        }
-
-        .bid-item:hover {
-            background: var(--card)
-        }
-
-        .bid-rank {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--muted);
-            width: 20px;
-            text-align: center;
-        }
-
-        .bid-info {
-            flex: 1
-        }
-
-        .bid-mat {
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: var(--white)
-        }
-
-        .bid-company {
-            font-size: 0.7rem;
-            color: var(--muted2);
-            font-family: 'IBM Plex Mono', monospace;
-            margin-top: 0.1rem
-        }
-
-        .bid-price {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.88rem;
-            font-weight: 700;
-            color: var(--white);
-            text-align: right
-        }
-
-        .bid-qty {
-            font-size: 0.65rem;
-            color: var(--muted2);
-            font-family: 'IBM Plex Mono', monospace;
-            text-align: right;
-            margin-top: 0.1rem
-        }
-
-        .bid-type {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.6rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 3px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            width: 44px;
-            text-align: center;
-        }
-
-        .bt-buy {
-            background: var(--blue2);
-            color: var(--blue);
-            border: 1px solid rgba(61, 139, 255, 0.25)
-        }
-
-        .bt-sell {
-            background: var(--green2);
-            color: var(--green);
-            border: 1px solid rgba(0, 217, 126, 0.25)
-        }
-
-        /* ── HISTORY ── */
-        .history-filters {
-            display: flex;
-            gap: 0.8rem;
-            margin-bottom: 1.2rem;
-            flex-wrap: wrap
-        }
-
-        .hf-btn {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.68rem;
-            padding: 0.4rem 1rem;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--muted2);
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.15s;
-            letter-spacing: 1px;
-        }
-
-        .hf-btn.active {
-            background: var(--gold2);
-            border-color: var(--gold);
-            color: var(--gold)
-        }
-
-        .hf-btn:hover:not(.active) {
-            border-color: var(--border2);
             color: var(--text)
         }
 
-        .history-table {
-            background: var(--panel);
-            border: 1px solid var(--border);
+        .user-role {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .62rem;
+            color: var(--muted)
+        }
+
+        .logout-btn {
+            margin-top: .75rem;
+            width: 100%;
+            padding: .5rem;
+            background: rgba(255, 61, 87, .08);
+            border: 1px solid rgba(255, 61, 87, .2);
             border-radius: 8px;
-            overflow: hidden
-        }
-
-        .ht-head {
-            display: grid;
-            grid-template-columns: 120px 1fr 100px 100px 90px 90px 100px;
-            padding: 0.75rem 1.2rem;
-            background: var(--card);
-            border-bottom: 1px solid var(--border);
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.62rem;
-            color: var(--muted2);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .ht-row {
-            display: grid;
-            grid-template-columns: 120px 1fr 100px 100px 90px 90px 100px;
-            padding: 0.85rem 1.2rem;
-            gap: 0.5rem;
-            border-bottom: 1px solid var(--border);
-            align-items: center;
-            transition: background 0.15s;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        .ht-row:last-child {
-            border-bottom: none
-        }
-
-        .ht-row:hover {
-            background: var(--card)
-        }
-
-        .ht-id {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.72rem;
-            color: var(--muted2)
-        }
-
-        .ht-mat {
-            font-weight: 600;
-            color: var(--white)
-        }
-
-        .ht-mat-sub {
-            font-size: 0.65rem;
-            color: var(--muted2);
-            margin-top: 0.1rem
-        }
-
-        .ht-num {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.78rem;
-            color: var(--white)
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 0.2rem 0.55rem;
-            border-radius: 3px;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.6rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .s-complete {
-            background: var(--green2);
-            color: var(--green);
-            border: 1px solid rgba(0, 217, 126, 0.25)
-        }
-
-        .s-pending {
-            background: var(--gold2);
-            color: var(--gold);
-            border: 1px solid rgba(255, 184, 0, 0.25)
-        }
-
-        .s-transit {
-            background: var(--blue2);
-            color: var(--blue);
-            border: 1px solid rgba(61, 139, 255, 0.25)
-        }
-
-        .s-cancelled {
-            background: var(--red2);
             color: var(--red);
-            border: 1px solid rgba(255, 69, 96, 0.2)
+            font-family: 'Syne', sans-serif;
+            font-size: .78rem;
+            cursor: pointer;
+            transition: all .2s
         }
 
-        .history-summary {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 1.5rem
+        .logout-btn:hover {
+            background: rgba(255, 61, 87, .15)
         }
 
-        .hs-card {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.1rem 1.3rem;
+        .main {
+            margin-left: var(--sidebar-w);
+            height: 100vh;
+            overflow-y: auto;
+            position: relative;
+            z-index: 1
         }
 
-        .hs-val {
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .9rem 2rem;
+            background: rgba(6, 8, 13, .9);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border)
+        }
+
+        .topbar h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 2px
+        }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: .4rem;
             font-family: 'IBM Plex Mono', monospace;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--white)
-        }
-
-        .hs-lbl {
-            font-size: 0.65rem;
-            color: var(--muted2);
-            margin-top: 0.2rem;
-            text-transform: uppercase;
+            font-size: .68rem;
+            color: var(--green);
             letter-spacing: 1px
         }
 
-        /* ── PROFILE ── */
-        .profile-layout {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 1.5rem
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: blink 1.4s ease-in-out infinite
         }
 
-        .profile-card {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .3
+            }
+        }
+
+        .clock {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .72rem;
+            color: var(--muted)
+        }
+
+        .ticker-bar {
+            background: linear-gradient(90deg, #0a1628, #0d1f3c, #0a1628);
+            border-bottom: 1px solid rgba(68, 138, 255, .2);
+            padding: .45rem 0;
             overflow: hidden;
+            white-space: nowrap
         }
 
-        .profile-cover {
-            height: 80px;
-            background: linear-gradient(135deg, #0d2137, #071a2e, #0a1628);
-            position: relative;
+        .ticker-track {
+            display: inline-block;
+            animation: tick 50s linear infinite
         }
 
-        .profile-avatar-wrap {
-            padding: 0 1.4rem;
-            margin-top: -30px;
-            margin-bottom: 0.8rem;
+        .ticker-track .up {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .7rem;
+            padding: 0 2rem;
+            color: var(--green)
+        }
+
+        .ticker-track .dn {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .7rem;
+            padding: 0 2rem;
+            color: var(--red)
+        }
+
+        @keyframes tick {
+            from {
+                transform: translateX(0)
+            }
+
+            to {
+                transform: translateX(-50%)
+            }
+        }
+
+        .page {
+            padding: 1.5rem 2rem 3rem
+        }
+
+        .section-header {
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
+            margin-bottom: 1.2rem;
+            padding-bottom: .6rem;
+            border-bottom: 1px solid var(--border)
         }
 
-        .profile-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--green), var(--blue));
-            display: flex;
+        .section-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 2px
+        }
+
+        .api-badge {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.4rem;
-            color: #fff;
-            border: 3px solid var(--panel);
-        }
-
-        .verified-chip {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.6rem;
-            background: var(--green2);
-            color: var(--green);
-            border: 1px solid rgba(0, 217, 126, 0.3);
-            padding: 0.3rem 0.7rem;
-            border-radius: 20px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .profile-info {
-            padding: 0 1.4rem 1.4rem
-        }
-
-        .profile-name {
-            font-size: 1rem;
-            font-weight: 800;
-            color: var(--white)
-        }
-
-        .profile-business {
-            font-size: 0.75rem;
-            color: var(--muted2);
-            margin-top: 0.1rem;
-            font-family: 'IBM Plex Mono', monospace
-        }
-
-        .profile-location {
-            font-size: 0.72rem;
-            color: var(--muted2);
-            margin-top: 0.6rem;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem
-        }
-
-        .profile-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1px;
-            background: var(--border);
-            margin: 1rem 0;
-            border: 1px solid var(--border);
+            gap: .3rem;
+            background: rgba(0, 230, 118, .1);
+            border: 1px solid rgba(0, 230, 118, .2);
             border-radius: 6px;
-            overflow: hidden;
+            padding: .2rem .5rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .6rem;
+            color: var(--green)
         }
 
-        .ps-item {
+        /* POST LISTING */
+        .post-form {
             background: var(--card);
-            padding: 0.9rem 0;
-            text-align: center;
+            border: 1px solid rgba(0, 230, 118, .2);
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-bottom: 2rem
         }
 
-        .ps-val {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--white)
-        }
-
-        .ps-lbl {
-            font-size: 0.6rem;
-            color: var(--muted2);
-            margin-top: 0.2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px
-        }
-
-        .profile-badges {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-top: 0.8rem
-        }
-
-        .pbadge {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.6rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-            font-weight: 700;
+        .post-form h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
             letter-spacing: 1px;
+            margin-bottom: 1rem;
+            color: var(--green)
         }
 
-        .profile-right {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: .8rem;
+            margin-bottom: .8rem
         }
 
-        .info-section {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden
-        }
-
-        .info-section-title {
-            padding: 0.9rem 1.2rem;
-            background: var(--card);
-            border-bottom: 1px solid var(--border);
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: var(--white);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .edit-btn {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.62rem;
-            color: var(--blue);
-            cursor: pointer;
-            background: var(--blue2);
-            border: 1px solid rgba(61, 139, 255, 0.25);
-            padding: 0.25rem 0.7rem;
-            border-radius: 3px;
-            transition: all 0.15s;
-        }
-
-        .edit-btn:hover {
-            background: var(--blue);
-            color: #fff
-        }
-
-        .info-grid {
+        .form-grid2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0;
-            padding: 0.5rem 0
+            gap: .8rem;
+            margin-bottom: .8rem
         }
 
-        .info-row {
-            padding: 0.65rem 1.2rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .info-row:nth-child(even) {
-            background: rgba(255, 255, 255, 0.01)
-        }
-
-        .info-label {
-            font-size: 0.65rem;
-            color: var(--muted2);
+        .fld label {
+            display: block;
+            font-size: .7rem;
+            color: var(--muted);
+            letter-spacing: .5px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.2rem;
+            margin-bottom: .35rem;
             font-family: 'IBM Plex Mono', monospace
         }
 
-        .info-val {
-            font-size: 0.82rem;
-            color: var(--text);
-            font-weight: 500
-        }
-
-        /* ── NOTIFICATIONS ── */
-        .notif-list {
-            background: var(--panel);
+        .fld input,
+        .fld select,
+        .fld textarea {
+            width: 100%;
+            padding: .65rem .85rem;
+            background: rgba(255, 255, 255, .05);
             border: 1px solid var(--border);
             border-radius: 8px;
-            overflow: hidden
+            color: var(--text);
+            font-family: 'Syne', sans-serif;
+            font-size: .85rem;
+            outline: none;
+            transition: border-color .2s;
+            -webkit-appearance: none
         }
 
-        .notif-item {
-            padding: 1rem 1.2rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
-            transition: background 0.15s;
+        .fld input:focus,
+        .fld select:focus,
+        .fld textarea:focus {
+            border-color: var(--green)
+        }
+
+        .fld textarea {
+            resize: vertical;
+            min-height: 70px
+        }
+
+        .fld select option {
+            background: #0f1320
+        }
+
+        .post-btn {
+            padding: .65rem 2rem;
+            background: linear-gradient(135deg, #00c853, #00e676);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-family: 'Syne', sans-serif;
+            font-size: .88rem;
+            font-weight: 700;
             cursor: pointer;
+            transition: all .2s;
+            letter-spacing: .5px
         }
 
-        .notif-item:last-child {
-            border-bottom: none
+        .post-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 230, 118, .3)
         }
 
-        .notif-item:hover {
-            background: var(--card)
+        /* LISTINGS GRID */
+        .listings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem
         }
 
-        .notif-item.unread {
-            background: rgba(61, 139, 255, 0.04)
+        .listing-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.2rem;
+            transition: border-color .2s, transform .2s
         }
 
-        .notif-icon-wrap {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
+        .listing-card:hover {
+            border-color: rgba(0, 230, 118, .25);
+            transform: translateY(-2px)
+        }
+
+        .lc-top {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            font-size: 1rem;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: .8rem
         }
 
-        .notif-content {
-            flex: 1
-        }
-
-        .notif-title {
-            font-size: 0.82rem;
+        .lc-name {
+            font-size: .95rem;
             font-weight: 600;
             color: var(--white)
         }
 
-        .notif-desc {
-            font-size: 0.73rem;
-            color: var(--muted2);
-            margin-top: 0.2rem;
-            line-height: 1.5
-        }
-
-        .notif-time {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.62rem;
+        .lc-company {
+            font-size: .72rem;
             color: var(--muted);
-            margin-top: 0.3rem
+            margin-top: .2rem
         }
 
-        .notif-unread-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--blue);
-            flex-shrink: 0;
-            margin-top: 0.4rem
+        .lc-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            color: var(--gold);
+            text-align: right
         }
 
-        /* ── SCROLLBAR ── */
-        ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px
+        .lc-unit {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .6rem;
+            color: var(--muted);
+            text-align: right
         }
 
-        ::-webkit-scrollbar-track {
-            background: transparent
+        .lc-body {
+            font-size: .8rem;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: .8rem
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: var(--border2);
-            border-radius: 2px
+        .lc-meta {
+            display: flex;
+            gap: .5rem;
+            flex-wrap: wrap
         }
 
-        /* ── TOAST ── */
-        #toast {
+        .lc-tag {
+            padding: .2rem .6rem;
+            border-radius: 20px;
+            font-size: .68rem;
+            font-family: 'IBM Plex Mono', monospace
+        }
+
+        .tag-sell {
+            background: rgba(0, 230, 118, .1);
+            border: 1px solid rgba(0, 230, 118, .2);
+            color: var(--green)
+        }
+
+        .tag-buy {
+            background: rgba(68, 138, 255, .1);
+            border: 1px solid rgba(68, 138, 255, .2);
+            color: var(--blue)
+        }
+
+        .tag-export {
+            background: rgba(255, 215, 64, .1);
+            border: 1px solid rgba(255, 215, 64, .2);
+            color: var(--gold)
+        }
+
+        .lc-footer {
+            margin-top: .8rem;
+            padding-top: .8rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .lc-poster {
+            font-size: .72rem;
+            color: var(--muted)
+        }
+
+        .lc-poster strong {
+            color: var(--text)
+        }
+
+        .contact-btn {
+            padding: .35rem .8rem;
+            background: rgba(0, 230, 118, .1);
+            border: 1px solid rgba(0, 230, 118, .2);
+            border-radius: 8px;
+            color: var(--green);
+            font-size: .72rem;
+            cursor: pointer;
+            font-family: 'Syne', sans-serif;
+            transition: all .2s
+        }
+
+        .contact-btn:hover {
+            background: rgba(0, 230, 118, .2)
+        }
+
+        .empty-state {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 3rem;
+            color: var(--muted);
+            font-size: .88rem
+        }
+
+        .success-toast {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            z-index: 9999;
-            background: var(--card2);
-            border: 1px solid var(--green);
-            color: var(--green);
-            padding: 0.8rem 1.4rem;
-            border-radius: 8px;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.78rem;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s;
-            pointer-events: none;
+            background: #00e676;
+            color: #000;
+            padding: .8rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: .88rem;
+            z-index: 999;
+            animation: slideUp .3s ease;
+            display: none
         }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s, transform 0.5s
-        }
-
-        .reveal.in {
-            opacity: 1;
-            transform: none
-        }
-
-        /* Smoothing button transitions */
-        .nav-item, .hf-btn, .submit-btn, .notif-btn, .panel-action, .logout-btn {
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .nav-item:active, .hf-btn:active, .submit-btn:active, .notif-btn:active, .panel-action:active, .logout-btn:active {
-            transform: scale(0.96) translateY(1px);
-        }
-
-        #toast.show {
-            opacity: 1;
-            transform: translateY(0)
-        }
-
-        /* ── RESPONSIVE ── */
-        @media(max-width:1100px) {
-            .kpi-row {
-                grid-template-columns: repeat(2, 1fr)
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0
             }
 
-            .two-col {
-                grid-template-columns: 1fr
-            }
-
-            .trade-layout {
-                grid-template-columns: 1fr
-            }
-
-            .profile-layout {
-                grid-template-columns: 1fr
-            }
-
-            .ht-head,
-            .ht-row {
-                grid-template-columns: 100px 1fr 90px 90px 80px
-            }
-
-            .ht-head>*:nth-child(6),
-            .ht-row>*:nth-child(6),
-            .ht-head>*:nth-child(7),
-            .ht-row>*:nth-child(7) {
-                display: none
+            to {
+                transform: translateY(0);
+                opacity: 1
             }
         }
 
-        @media(max-width:800px) {
-            .sidebar {
-                width: 60px
-            }
+        .filter-row {
+            display: flex;
+            gap: .5rem;
+            flex-wrap: wrap
+        }
 
-            .sidebar-logo .logo-text,
-            .sidebar-user .user-name,
-            .sidebar-user .user-role,
-            .sidebar-user .user-verified,
-            .nav-label,
-            .nav-item span:not(.ni),
-            .nav-badge,
-            .logo-sub,
-            .sidebar-bottom .logout-btn span {
-                display: none
-            }
+        .tab {
+            padding: .4rem .9rem;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: .75rem;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all .2s;
+            font-family: 'Syne', sans-serif
+        }
 
-            .nav-item {
-                justify-content: center;
-                padding: 0.8rem
-            }
-
-            .sidebar-user {
-                justify-content: center
-            }
-
-            .user-avatar {
-                width: 32px;
-                height: 32px;
-                font-size: 0.8rem
-            }
+        .tab.active,
+        .tab:hover {
+            background: rgba(0, 230, 118, .1);
+            border-color: rgba(0, 230, 118, .3);
+            color: var(--green)
         }
     </style>
 </head>
 
 <body>
-
-    <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="sidebar-logo">
-            <a href="scrap-connect.html" class="logo-link">
-                <div class="logo-text">Scrap<span>Connect</span></div>
-                <div class="logo-sub">DASHBOARD v2.4</div>
-            </a>
+            <div class="brand">Scrap<span>Connect</span></div>
+            <div class="role-tag" id="sidebarRole">Loading...</div>
         </div>
-        <div class="sidebar-user">
-            <div class="user-avatar">RK</div>
-            <div>
-                <div class="user-name">Rajesh Kumar</div>
-                <div class="user-role">DEALER · VERIFIED</div>
-            </div>
-            <div class="user-verified">✓</div>
-        </div>
-
-        <div class="nav-section">
-            <div class="nav-label">Main</div>
-            <div class="nav-item active" onclick="switchView('overview',this)"><span
-                    class="ni">📊</span><span>Overview</span></div>
-            <div class="nav-item" onclick="switchView('buy',this)"><span class="ni">🛒</span><span>Buy
-                    Materials</span><span class="nav-badge green">32</span></div>
-            <div class="nav-item" onclick="switchView('sell',this)"><span class="ni">📤</span><span>Sell
-                    Materials</span></div>
-            <div class="nav-item" onclick="switchView('history',this)"><span class="ni">📋</span><span>Trade
-                    History</span></div>
-        </div>
-
-        <div class="nav-section">
-            <div class="nav-label">Account</div>
-            <div class="nav-item" onclick="switchView('profile',this)"><span class="ni">👤</span><span>My Profile</span>
-            </div>
-            <div class="nav-item" onclick="switchView('notifs',this)"><span
-                    class="ni">🔔</span><span>Notifications</span><span class="nav-badge">5</span></div>
-            <div class="nav-item" onclick="switchView('transport',this)"><span
-                    class="ni">🚛</span><span>Transporters</span></div>
-        </div>
-
+        <span class="nav-section">Main</span>
+        <a class="nav-item" href="/dashboard"><span class="icon">📊</span>Dashboard</a>
+        <a class="nav-item active" href="/overview"><span class="icon">🏪</span>Market</a>
+        <a class="nav-item" href="/scrap-connect"><span class="icon">🔗</span>ScrapConnect</a>
+        <span class="nav-section">Account</span>
+        <a class="nav-item" href="#"><span class="icon">👤</span>My Profile</a>
+        <a class="nav-item" href="#"><span class="icon">📦</span>My Listings</a>
+        <a class="nav-item" href="#"><span class="icon">💬</span>Messages</a>
         <div class="sidebar-bottom">
-            <button class="logout-btn" onclick="handleLogout()">LOGOUT ASSET SECURELY</button>
+            <div class="user-pill">
+                <div class="user-avatar" id="sidebarAvatar">?</div>
+                <div>
+                    <div class="user-name" id="sidebarName">Loading...</div>
+                    <div class="user-role" id="sidebarRoleSub">—</div>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Sign Out</button>
         </div>
     </aside>
 
-    <!-- MAIN -->
-    <div class="main">
-        <!-- TOPBAR -->
+    <main class="main">
         <div class="topbar">
-            <div class="page-title" id="pageTitle">OVERVIEW</div>
-            <div class="topbar-right">
-                <div class="topbar-stat">
-                    <div class="ts-val" id="liveClock">--:--</div>
-                    <div class="ts-lbl">IST · Live</div>
+            <div>
+                <h1>Live Market</h1>
+            </div>
+            <div style="display:flex;align-items:center;gap:1rem">
+                <div class="live-badge">
+                    <div class="live-dot"></div>LIVE
                 </div>
-                <div class="topbar-stat">
-                    <div class="ts-val">₹38.4L</div>
-                    <div class="ts-lbl">Today's Volume</div>
-                </div>
-                <div class="notif-btn" onclick="switchView('notifs',null)">🔔<div class="notif-dot"></div>
-                </div>
+                <div class="clock" id="clock">00:00:00 IST</div>
             </div>
         </div>
+        <div class="ticker-bar">
+            <div class="ticker-track" id="ticker">Loading...</div>
+        </div>
 
-        <!-- CONTENT -->
-        <div class="content">
+        <div class="page">
 
-            <!-- ════ OVERVIEW ════ -->
-            <div class="view active" id="v-overview">
-                <div class="kpi-row">
-                    <div class="kpi" style="--accent:var(--green)">
-                        <div class="kpi-label">Total Purchases</div>
-                        <div class="kpi-val">₹1.24 Cr</div>
-                        <div class="kpi-change" style="color:var(--green)">↑ 12.4% this month</div>
-                        <div class="kpi-icon">🛒</div>
+            <!-- POST A LISTING -->
+            <div class="post-form">
+                <h3>📋 Post a New Listing</h3>
+                <div class="form-grid">
+                    <div class="fld">
+                        <label>Material Name *</label>
+                        <input type="text" id="listName" placeholder="e.g. HMS Steel Scrap" />
                     </div>
-                    <div class="kpi" style="--accent:var(--blue)">
-                        <div class="kpi-label">Total Sales</div>
-                        <div class="kpi-val">₹89.2L</div>
-                        <div class="kpi-change" style="color:var(--blue)">↑ 8.1% this month</div>
-                        <div class="kpi-icon">📤</div>
+                    <div class="fld">
+                        <label>Category *</label>
+                        <select id="listCat">
+                            <option value="metal">Metal</option>
+                            <option value="plastic">Plastic</option>
+                            <option value="paper">Paper</option>
+                            <option value="ewaste">E-Waste</option>
+                            <option value="rubber">Rubber</option>
+                            <option value="construction">Construction</option>
+                        </select>
                     </div>
-                    <div class="kpi" style="--accent:var(--gold)">
-                        <div class="kpi-label">Active Orders</div>
-                        <div class="kpi-val">7</div>
-                        <div class="kpi-change" style="color:var(--gold)">3 in transit · 4 pending</div>
-                        <div class="kpi-icon">📦</div>
-                    </div>
-                    <div class="kpi" style="--accent:var(--purple)">
-                        <div class="kpi-label">Reputation Score</div>
-                        <div class="kpi-val">4.92</div>
-                        <div class="kpi-change" style="color:var(--purple)">⭐ Top 5% Dealer</div>
-                        <div class="kpi-icon">🏆</div>
+                    <div class="fld">
+                        <label>Grade / Quality</label>
+                        <input type="text" id="listGrade" placeholder="e.g. HMS 1&2, Clean" />
                     </div>
                 </div>
-
-                <div class="two-col">
-                    <!-- Recent Activity -->
-                    <div class="panel">
-                        <div class="panel-header">
-                            <div class="panel-title">Recent Activity</div>
-                            <div class="panel-action" onclick="switchView('history',null)">VIEW ALL →</div>
-                        </div>
-                        <div class="act-item">
-                            <div class="act-dot" style="background:var(--green)"></div>
-                            <div class="act-info">
-                                <div class="act-title">Bought — TMT Bars Fe-500D</div>
-                                <div class="act-sub">JSW Scrap Division · 120 MT · JNPT Mumbai</div>
-                                <div class="act-time">Today, 10:42 AM</div>
-                            </div>
-                            <div>
-                                <div class="act-amount" style="color:var(--green)">₹63.36L</div>
-                                <div class="act-time" style="text-align:right">COMPLETE</div>
-                            </div>
-                        </div>
-                        <div class="act-item">
-                            <div class="act-dot" style="background:var(--blue)"></div>
-                            <div class="act-info">
-                                <div class="act-title">Sold — MS Iron Scrap HMS 1&2</div>
-                                <div class="act-sub">BharatMetal Dealers · 80 MT · Jaipur</div>
-                                <div class="act-time">Yesterday, 3:15 PM</div>
-                            </div>
-                            <div>
-                                <div class="act-amount" style="color:var(--blue)">₹26L</div>
-                                <div class="act-time" style="text-align:right">COMPLETE</div>
-                            </div>
-                        </div>
-                        <div class="act-item">
-                            <div class="act-dot" style="background:var(--gold)"></div>
-                            <div class="act-info">
-                                <div class="act-title">Pending — Copper Scrap Bare Bright</div>
-                                <div class="act-sub">Global Copper Exchange · 12 MT · Delhi</div>
-                                <div class="act-time">18 Mar, 9:00 AM</div>
-                            </div>
-                            <div>
-                                <div class="act-amount" style="color:var(--gold)">₹86.4L</div>
-                                <div class="act-time" style="text-align:right">IN TRANSIT</div>
-                            </div>
-                        </div>
-                        <div class="act-item">
-                            <div class="act-dot" style="background:var(--red)"></div>
-                            <div class="act-info">
-                                <div class="act-title">Sold — OCC Cardboard Grade 11</div>
-                                <div class="act-sub">PaperMill Corp · 400 MT · Vapi</div>
-                                <div class="act-time">17 Mar, 2:30 PM</div>
-                            </div>
-                            <div>
-                                <div class="act-amount" style="color:var(--red)">₹4.8L</div>
-                                <div class="act-time" style="text-align:right">COMPLETE</div>
-                            </div>
-                        </div>
-                        <div class="act-item">
-                            <div class="act-dot" style="background:var(--green)"></div>
-                            <div class="act-info">
-                                <div class="act-title">Bought — Aluminium Scrap Mixed Alloy</div>
-                                <div class="act-sub">Hindalco Industries · 60 MT · Renukoot</div>
-                                <div class="act-time">16 Mar, 11:20 AM</div>
-                            </div>
-                            <div>
-                                <div class="act-amount" style="color:var(--green)">₹8.7L</div>
-                                <div class="act-time" style="text-align:right">COMPLETE</div>
-                            </div>
-                        </div>
+                <div class="form-grid">
+                    <div class="fld">
+                        <label>Your Price (₹) *</label>
+                        <input type="number" id="listPrice" placeholder="e.g. 32000" />
                     </div>
-
-                    <!-- Live Mini Market -->
-                    <div class="panel">
-                        <div class="panel-header">
-                            <div class="panel-title">Live Prices</div>
-                            <div class="panel-action" onclick="switchView('buy',null)">TRADE →</div>
-                        </div>
-                        <div class="mini-market">
-                            <div class="mm-row" onclick="switchView('buy',null)">
-                                <div class="mm-left"><span class="mm-icon">🔩</span>
-                                    <div>
-                                        <div class="mm-name">Iron Scrap</div>
-                                        <div
-                                            style="font-size:0.62rem;color:var(--muted2);font-family:'IBM Plex Mono',monospace">
-                                            HMS 1&2</div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="mm-price">₹32,500/MT</div>
-                                    <div class="mm-chg" style="background:var(--green2);color:var(--green)">+1.8%</div>
-                                </div>
-                            </div>
-                            <div class="mm-row" onclick="switchView('buy',null)">
-                                <div class="mm-left"><span class="mm-icon">🏗️</span>
-                                    <div>
-                                        <div class="mm-name">TMT Bars</div>
-                                        <div
-                                            style="font-size:0.62rem;color:var(--muted2);font-family:'IBM Plex Mono',monospace">
-                                            Fe-500D</div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="mm-price">₹52,800/MT</div>
-                                    <div class="mm-chg" style="background:var(--green2);color:var(--green)">+3.2%</div>
-                                </div>
-                            </div>
-                            <div class="mm-row" onclick="switchView('buy',null)">
-                                <div class="mm-left"><span class="mm-icon">🟠</span>
-                                    <div>
-                                        <div class="mm-name">Copper Scrap</div>
-                                        <div
-                                            style="font-size:0.62rem;color:var(--muted2);font-family:'IBM Plex Mono',monospace">
-                                            Bare Bright</div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="mm-price">₹7,200/KG</div>
-                                    <div class="mm-chg" style="background:var(--green2);color:var(--green)">+0.9%</div>
-                                </div>
-                            </div>
-                            <div class="mm-row" onclick="switchView('buy',null)">
-                                <div class="mm-left"><span class="mm-icon">🪨</span>
-                                    <div>
-                                        <div class="mm-name">Aluminium</div>
-                                        <div
-                                            style="font-size:0.62rem;color:var(--muted2);font-family:'IBM Plex Mono',monospace">
-                                            Mixed Alloy</div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="mm-price">₹145/KG</div>
-                                    <div class="mm-chg" style="background:var(--red2);color:var(--red)">-1.1%</div>
-                                </div>
-                            </div>
-                            <div class="mm-row" onclick="switchView('buy',null)">
-                                <div class="mm-left"><span class="mm-icon">🧴</span>
-                                    <div>
-                                        <div class="mm-name">PET Bottles</div>
-                                        <div
-                                            style="font-size:0.62rem;color:var(--muted2);font-family:'IBM Plex Mono',monospace">
-                                            Clear Grade A</div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="mm-price">₹28/KG</div>
-                                    <div class="mm-chg" style="background:var(--green2);color:var(--green)">+0.4%</div>
-                                </div>
-                            </div>
-                            <div class="mm-row" onclick="switchView('buy',null)">
-                                <div class="mm-left"><span class="mm-icon">💻</span>
-                                    <div>
-                                        <div class="mm-name">PCB / E-Waste</div>
-                                        <div
-                                            style="font-size:0.62rem;color:var(--muted2);font-family:'IBM Plex Mono',monospace">
-                                            Grade A</div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="mm-price">₹820/KG</div>
-                                    <div class="mm-chg" style="background:var(--green2);color:var(--green)">+4.2%</div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="fld">
+                        <label>Unit</label>
+                        <select id="listUnit">
+                            <option>per MT</option>
+                            <option>per KG</option>
+                            <option>per Piece</option>
+                            <option>per Lot</option>
+                        </select>
+                    </div>
+                    <div class="fld">
+                        <label>Listing Type *</label>
+                        <select id="listType">
+                            <option value="sell">Selling</option>
+                            <option value="buy">Buying</option>
+                            <option value="export">Export Ready</option>
+                        </select>
                     </div>
                 </div>
+                <div class="form-grid2">
+                    <div class="fld">
+                        <label>Quantity Available</label>
+                        <input type="text" id="listQty" placeholder="e.g. 50 MT, 500 KG" />
+                    </div>
+                    <div class="fld">
+                        <label>Location</label>
+                        <input type="text" id="listLocation" placeholder="City, State" />
+                    </div>
+                </div>
+                <div class="fld" style="margin-bottom:.8rem">
+                    <label>Description</label>
+                    <textarea id="listDesc"
+                        placeholder="Add details about quality, pickup terms, certifications..."></textarea>
+                </div>
+                <button class="post-btn" onclick="postListing()">+ Post Listing</button>
             </div>
 
-            <!-- ════ BUY ════ -->
-            <div class="view" id="v-buy">
-                <div class="trade-layout">
-                    <!-- Buy Form -->
-                    <div class="trade-form-panel">
-                        <div class="panel-header" style="background:var(--blue2);border-color:rgba(61,139,255,0.2)">
-                            <div class="panel-title" style="color:var(--blue)">🛒 Place Buy Order</div>
-                            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--blue)">LIVE
-                                MARKET</span>
-                        </div>
-                        <div class="form-body">
-                            <div class="field">
-                                <label>Material Category</label>
-                                <select onchange="updateBuyEstimate()">
-                                    <option>⚙️ Metals</option>
-                                    <option>🧴 Plastic</option>
-                                    <option>📄 Paper</option>
-                                    <option>🔧 Rubber</option>
-                                    <option>💻 E-Waste</option>
-                                    <option>🏗️ Construction Waste</option>
-                                </select>
-                            </div>
-                            <div class="field">
-                                <label>Specific Material</label>
-                                <select onchange="updateBuyEstimate()">
-                                    <option>TMT Bars Fe-500D — ₹52,800/MT</option>
-                                    <option>Iron Scrap HMS 1&2 — ₹32,500/MT</option>
-                                    <option>Copper Scrap Bare Bright — ₹7,200/KG</option>
-                                    <option>Aluminium Mixed Alloy — ₹145/KG</option>
-                                    <option>Stainless Steel 304 — ₹87,000/MT</option>
-                                    <option>Brass Yellow Scrap — ₹360/KG</option>
-                                </select>
-                            </div>
-                            <div class="field-row">
-                                <div class="field">
-                                    <label>Quantity (MT / KG)</label>
-                                    <input type="number" value="50" min="1" oninput="updateBuyEstimate()" id="buyQty" />
-                                </div>
-                                <div class="field">
-                                    <label>Unit</label>
-                                    <select onchange="updateBuyEstimate()">
-                                        <option>MT (Metric Ton)</option>
-                                        <option>KG</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label>Delivery Location</label>
-                                <input type="text" placeholder="e.g. Jaipur, Rajasthan" value="Jaipur, Rajasthan" />
-                            </div>
-                            <div class="field-row">
-                                <div class="field">
-                                    <label>Required By</label>
-                                    <input type="date" />
-                                </div>
-                                <div class="field">
-                                    <label>Payment Mode</label>
-                                    <select>
-                                        <option>Bank Transfer (NEFT/RTGS)</option>
-                                        <option>LC (Letter of Credit)</option>
-                                        <option>UPI / Online</option>
-                                        <option>Cheque</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label>Additional Notes</label>
-                                <textarea placeholder="Quality requirements, certifications needed, etc."></textarea>
-                            </div>
-                            <div class="price-estimate">
-                                <div class="pe-label">Estimated Order Value</div>
-                                <div class="pe-val" id="buyEstVal">₹26,40,000</div>
-                                <div class="pe-breakdown">
-                                    <span class="pe-b">Material: ₹26,40,000</span>
-                                    <span class="pe-b">GST (18%): ₹4,75,200</span>
-                                    <span class="pe-b">Transport: ₹45,000</span>
-                                </div>
-                            </div>
-                            <a href="/dashboard.html"> <button class="submit-btn btn-buy"
-                                    onclick="showToast('✓ Buy Order Placed! Reference: #BUY-2024-'+Math.floor(Math.random()*9000+1000))">PLACE
-                                    BUY ORDER →</button></a>
-                        </div>
+            <!-- ALL LISTINGS -->
+            <div class="section-header">
+                <div>
+                    <h2>Market Listings</h2>
+                    <div style="margin-top:.3rem;display:flex;gap:.5rem;align-items:center">
+                        <span class="api-badge">🏪 LIVE BOARD</span>
+                        <span style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--muted)"
+                            id="listCount">0 listings</span>
                     </div>
-
-                    <!-- Live Buy Bids -->
-                    <div style="display:flex;flex-direction:column;gap:1.2rem">
-                        <div class="panel">
-                            <div class="panel-header">
-                                <div class="panel-title">Open Sell Listings</div>
-                                <div class="panel-action">32 available</div>
-                            </div>
-                            <div class="bids-list">
-                                <div class="bid-item">
-                                    <div class="bid-rank">1</div>
-                                    <div class="bid-info">
-                                        <div class="bid-mat">🏗️ TMT Bars Fe-500D</div>
-                                        <div class="bid-company">JSW Steel Recycling · Mumbai</div>
-                                    </div>
-                                    <div>
-                                        <div class="bid-price">₹52,400/MT</div>
-                                        <div class="bid-qty">Min 50 MT · In stock</div>
-                                    </div>
-                                    <div class="bid-type bt-sell">SELL</div>
-                                </div>
-                                <div class="bid-item">
-                                    <div class="bid-rank">2</div>
-                                    <div class="bid-info">
-                                        <div class="bid-mat">🔩 Iron HMS 1&2</div>
-                                        <div class="bid-company">SteelKraft Pvt · Rajkot</div>
-                                    </div>
-                                    <div>
-                                        <div class="bid-price">₹32,100/MT</div>
-                                        <div class="bid-qty">Min 20 MT · 800 MT avail</div>
-                                    </div>
-                                    <div class="bid-type bt-sell">SELL</div>
-                                </div>
-                                <div class="bid-item">
-                                    <div class="bid-rank">3</div>
-                                    <div class="bid-info">
-                                        <div class="bid-mat">🟠 Copper Bare Bright</div>
-                                        <div class="bid-company">Global Copper Exchange · Delhi</div>
-                                    </div>
-                                    <div>
-                                        <div class="bid-price">₹7,050/KG</div>
-                                        <div class="bid-qty">Min 500 KG · Export ready</div>
-                                    </div>
-                                    <div class="bid-type bt-sell">SELL</div>
-                                </div>
-                                <div class="bid-item">
-                                    <div class="bid-rank">4</div>
-                                    <div class="bid-info">
-                                        <div class="bid-mat">🧴 PET Clear Grade A</div>
-                                        <div class="bid-company">EcoPlas India · Surat</div>
-                                    </div>
-                                    <div>
-                                        <div class="bid-price">₹27.5/KG</div>
-                                        <div class="bid-qty">Min 5 MT · 200 MT avail</div>
-                                    </div>
-                                    <div class="bid-type bt-sell">SELL</div>
-                                </div>
-                                <div class="bid-item">
-                                    <div class="bid-rank">5</div>
-                                    <div class="bid-info">
-                                        <div class="bid-mat">💻 PCB Grade A</div>
-                                        <div class="bid-company">EcoChip Recyclers · Noida</div>
-                                    </div>
-                                    <div>
-                                        <div class="bid-price">₹810/KG</div>
-                                        <div class="bid-qty">Min 100 KG · Certified</div>
-                                    </div>
-                                    <div class="bid-type bt-sell">SELL</div>
-                                </div>
-                                <div class="bid-item">
-                                    <div class="bid-rank">6</div>
-                                    <div class="bid-info">
-                                        <div class="bid-mat">🔧 Crumb Rubber 0.5mm</div>
-                                        <div class="bid-company">BioRubber Innovations · Pune</div>
-                                    </div>
-                                    <div>
-                                        <div class="bid-price">₹50/KG</div>
-                                        <div class="bid-qty">Min 2 MT · 500 MT/mo</div>
-                                    </div>
-                                    <div class="bid-type bt-sell">SELL</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                <div class="filter-row">
+                    <button class="tab active" onclick="filterListings('all',this)">All</button>
+                    <button class="tab" onclick="filterListings('sell',this)">Selling</button>
+                    <button class="tab" onclick="filterListings('buy',this)">Buying</button>
+                    <button class="tab" onclick="filterListings('export',this)">Export</button>
                 </div>
             </div>
-
-            <!-- ════ SELL ════ -->
-            <div class="view" id="v-sell">
-                <div class="trade-layout">
-                    <!-- Sell Form -->
-                    <div class="trade-form-panel">
-                        <div class="panel-header" style="background:var(--green2);border-color:rgba(0,217,126,0.2)">
-                            <div class="panel-title" style="color:var(--green)">📤 Post Sell Listing</div>
-                            <span
-                                style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--green)">LIST
-                                MATERIAL</span>
-                        </div>
-                        <div class="form-body">
-                            <div class="field">
-                                <label>Material Category</label>
-                                <select>
-                                    <option>⚙️ Metals</option>
-                                    <option>🧴 Plastic</option>
-                                    <option>📄 Paper</option>
-                                    <option>🔧 Rubber</option>
-                                    <option>💻 E-Waste</option>
-                                    <option>🏗️ Construction Waste</option>
-                                </select>
-                            </div>
-                            <div class="field">
-                                <label>Material Name & Grade</label>
-                                <input type="text" placeholder="e.g. TMT Bars Fe-500D, Iron HMS 1&2" />
-                            </div>
-                            <div class="field-row">
-                                <div class="field">
-                                    <label>Available Quantity</label>
-                                    <input type="number" placeholder="e.g. 100" id="sellQty"
-                                        oninput="updateSellEstimate()" />
-                                </div>
-                                <div class="field">
-                                    <label>Unit</label>
-                                    <select>
-                                        <option>MT (Metric Ton)</option>
-                                        <option>KG</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="field-row">
-                                <div class="field">
-                                    <label>Asking Price</label>
-                                    <input type="number" placeholder="₹ per MT/KG" id="sellPrice"
-                                        oninput="updateSellEstimate()" />
-                                </div>
-                                <div class="field">
-                                    <label>Minimum Order</label>
-                                    <input type="number" placeholder="Min MT/KG" />
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label>Material Location / Pickup Point</label>
-                                <input type="text" placeholder="City, State" value="Jaipur, Rajasthan" />
-                            </div>
-                            <div class="field-row">
-                                <div class="field">
-                                    <label>Available From</label>
-                                    <input type="date" />
-                                </div>
-                                <div class="field">
-                                    <label>Export Ready?</label>
-                                    <select>
-                                        <option>Yes — Export Documents Ready</option>
-                                        <option>No — Domestic Only</option>
-                                        <option>On Request</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label>Quality / Certification Details</label>
-                                <textarea
-                                    placeholder="BIS certified, ISI mark, test reports available, photos on request..."></textarea>
-                            </div>
-                            <div class="price-estimate">
-                                <div class="pe-label">Estimated Listing Value</div>
-                                <div class="pe-val" id="sellEstVal">Enter quantity & price above</div>
-                                <div class="pe-breakdown">
-                                    <span class="pe-b">Platform fee: 0.5%</span>
-                                    <span class="pe-b">Listed to 318+ verified buyers</span>
-                                </div>
-                            </div>
-                            <button class="submit-btn btn-sell"
-                                onclick="showToast('✓ Listing Posted! Reference: #SELL-2024-'+Math.floor(Math.random()*9000+1000))">POST
-                                SELL LISTING →</button>
-                        </div>
-                    </div>
-
-                    <!-- Active Buy Requests -->
-                    <div style="display:flex;flex-direction:column;gap:1.2rem">
-                        <div class="panel">
-                            <div class="panel-header">
-                                <div class="panel-title">Active Buy Requests</div>
-                                <div class="panel-action">18 buyers waiting</div>
-                            </div>
-                            <div class="bids-list">
-                                <div class="bid-item">
-                                    <div class="bid-rank">1</div>
-                                    <div class="bid-info">
-                                        <div class="bid-mat">🔩 Iron Scrap — Any Grade</div>
-                                        <div class="bid-company">Tata Steel Recycling · Mumbai</div>
-                                    </div>
-                                    <div>
-                                        <div class="bid-price">₹31,800/MT</div>
-                                        <div class="bid-qty">Need 500 MT · Urgent</div>
-                                    </div>
-                                    <div class="bid-type bt-buy">BUY</div>
-                                </div>
-                                <div class="bid-item">
-                                    <div class="bid-rank">2</div>
-                                    <div class="bid-info">
-                                        <div class="bid-mat">📦 OCC Cardboard Grade 11</div>
-                                        <div class="bid-company">PaperMill Corp · Vapi</div>
-                                    </div>
-                                    <div>
-                                        <div class="bid-price">₹11.5/KG</div>
-                                        <div class="bid-qty">Need 800 MT/mo</div>
-                                    </div>
-                                    <div class="bid-type bt-buy">BUY</div>
-                                </div>
-                                <div class="bid-item">
-                                    <div class="bid-rank">3</div>
-                                    <div class="bid-info">
-                                        <div class="bid-mat">🪨 Aluminium Mixed Alloy</div>
-                                        <div class="bid-company">Hindalco Industries · UP</div>
-                                    </div>
-                                    <div>
-                                        <div class="bid-price">₹143/KG</div>
-                                        <div class="bid-qty">Need 200 MT · Regular</div>
-                                    </div>
-                                    <div class="bid-type bt-buy">BUY</div>
-                                </div>
-                                <div class="bid-item">
-                                    <div class="bid-rank">4</div>
-                                    <div class="bid-info">
-                                        <div class="bid-mat">🔋 Li-Ion Batteries Used</div>
-                                        <div class="bid-company">GreenEnergy Recyclers · Bengaluru</div>
-                                    </div>
-                                    <div>
-                                        <div class="bid-price">₹115/KG</div>
-                                        <div class="bid-qty">Need 20 MT · Monthly</div>
-                                    </div>
-                                    <div class="bid-type bt-buy">BUY</div>
-                                </div>
-                                <div class="bid-item">
-                                    <div class="bid-rank">5</div>
-                                    <div class="bid-info">
-                                        <div class="bid-mat">🏚️ Cast Iron Scrap Clean</div>
-                                        <div class="bid-company">FoundryTech India · Coimbatore</div>
-                                    </div>
-                                    <div>
-                                        <div class="bid-price">₹25,500/MT</div>
-                                        <div class="bid-qty">Need 300 MT · Q1</div>
-                                    </div>
-                                    <div class="bid-type bt-buy">BUY</div>
-                                </div>
-                                <div class="bid-item">
-                                    <div class="bid-rank">6</div>
-                                    <div class="bid-info">
-                                        <div class="bid-mat">🚗 Waste Tyres Mixed</div>
-                                        <div class="bid-company">RubberTech India · Pune</div>
-                                    </div>
-                                    <div>
-                                        <div class="bid-price">₹8.5/KG</div>
-                                        <div class="bid-qty">Need 150 MT/mo</div>
-                                    </div>
-                                    <div class="bid-type bt-buy">BUY</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="listings-grid" id="listingsGrid">
+                <div class="empty-state">No listings yet. Be the first to post! 👆</div>
             </div>
+        </div>
+    </main>
 
-            <!-- ════ HISTORY ════ -->
-            <div class="view" id="v-history">
-                <div class="history-summary">
-                    <div class="hs-card">
-                        <div class="hs-val">₹2.13 Cr</div>
-                        <div class="hs-lbl">Total Bought (2024)</div>
-                    </div>
-                    <div class="hs-card">
-                        <div class="hs-val">₹1.47 Cr</div>
-                        <div class="hs-lbl">Total Sold (2024)</div>
-                    </div>
-                    <div class="hs-card">
-                        <div class="hs-val">48</div>
-                        <div class="hs-lbl">Completed Trades</div>
-                    </div>
-                    <div class="hs-card">
-                        <div class="hs-val">4.92 ⭐</div>
-                        <div class="hs-lbl">Average Rating</div>
-                    </div>
-                </div>
-
-                <div class="history-filters">
-                    <button class="hf-btn active" onclick="filterHistory('all',this)">ALL TRADES</button>
-                    <button class="hf-btn" onclick="filterHistory('buy',this)">PURCHASES</button>
-                    <button class="hf-btn" onclick="filterHistory('sell',this)">SALES</button>
-                    <button class="hf-btn" onclick="filterHistory('complete',this)">COMPLETED</button>
-                    <button class="hf-btn" onclick="filterHistory('pending',this)">PENDING</button>
-                    <button class="hf-btn" onclick="filterHistory('transit',this)">IN TRANSIT</button>
-                </div>
-
-                <div class="history-table">
-                    <div class="ht-head">
-                        <div>Trade ID</div>
-                        <div>Material</div>
-                        <div>Quantity</div>
-                        <div>Value</div>
-                        <div>Type</div>
-                        <div>Date</div>
-                        <div>Status</div>
-                    </div>
-                    <div class="ht-row" data-type="buy" data-status="complete">
-                        <div class="ht-id">#BUY-4821</div>
-                        <div>
-                            <div class="ht-mat">TMT Bars Fe-500D</div>
-                            <div class="ht-mat-sub">JSW Steel · Mumbai</div>
-                        </div>
-                        <div class="ht-num">120 MT</div>
-                        <div class="ht-num" style="color:var(--green)">₹63.36L</div>
-                        <div><span class="bid-type bt-buy">BUY</span></div>
-                        <div class="ht-num">18 Mar 2024</div>
-                        <div><span class="status-badge s-complete">Complete</span></div>
-                    </div>
-                    <div class="ht-row" data-type="sell" data-status="complete">
-                        <div class="ht-id">#SELL-4820</div>
-                        <div>
-                            <div class="ht-mat">Iron Scrap HMS 1&2</div>
-                            <div class="ht-mat-sub">BharatMetal · Jaipur</div>
-                        </div>
-                        <div class="ht-num">80 MT</div>
-                        <div class="ht-num" style="color:var(--blue)">₹26L</div>
-                        <div><span class="bid-type bt-sell">SELL</span></div>
-                        <div class="ht-num">17 Mar 2024</div>
-                        <div><span class="status-badge s-complete">Complete</span></div>
-                    </div>
-                    <div class="ht-row" data-type="buy" data-status="transit">
-                        <div class="ht-id">#BUY-4819</div>
-                        <div>
-                            <div class="ht-mat">Copper Scrap Bare Bright</div>
-                            <div class="ht-mat-sub">Global Copper Exchange · Delhi</div>
-                        </div>
-                        <div class="ht-num">12 MT</div>
-                        <div class="ht-num" style="color:var(--gold)">₹86.4L</div>
-                        <div><span class="bid-type bt-buy">BUY</span></div>
-                        <div class="ht-num">18 Mar 2024</div>
-                        <div><span class="status-badge s-transit">In Transit</span></div>
-                    </div>
-                    <div class="ht-row" data-type="sell" data-status="complete">
-                        <div class="ht-id">#SELL-4818</div>
-                        <div>
-                            <div class="ht-mat">OCC Cardboard Grade 11</div>
-                            <div class="ht-mat-sub">PaperMill Corp · Vapi</div>
-                        </div>
-                        <div class="ht-num">400 MT</div>
-                        <div class="ht-num" style="color:var(--blue)">₹4.8L</div>
-                        <div><span class="bid-type bt-sell">SELL</span></div>
-                        <div class="ht-num">17 Mar 2024</div>
-                        <div><span class="status-badge s-complete">Complete</span></div>
-                    </div>
-                    <div class="ht-row" data-type="buy" data-status="complete">
-                        <div class="ht-id">#BUY-4817</div>
-                        <div>
-                            <div class="ht-mat">Aluminium Mixed Alloy</div>
-                            <div class="ht-mat-sub">Hindalco · Renukoot</div>
-                        </div>
-                        <div class="ht-num">60 MT</div>
-                        <div class="ht-num" style="color:var(--green)">₹8.7L</div>
-                        <div><span class="bid-type bt-buy">BUY</span></div>
-                        <div class="ht-num">16 Mar 2024</div>
-                        <div><span class="status-badge s-complete">Complete</span></div>
-                    </div>
-                    <div class="ht-row" data-type="sell" data-status="pending">
-                        <div class="ht-id">#SELL-4816</div>
-                        <div>
-                            <div class="ht-mat">PET Clear Grade A</div>
-                            <div class="ht-mat-sub">EcoPlas India · Surat</div>
-                        </div>
-                        <div class="ht-num">80 MT</div>
-                        <div class="ht-num" style="color:var(--gold)">₹2.24L</div>
-                        <div><span class="bid-type bt-sell">SELL</span></div>
-                        <div class="ht-num">15 Mar 2024</div>
-                        <div><span class="status-badge s-pending">Pending</span></div>
-                    </div>
-                    <div class="ht-row" data-type="buy" data-status="complete">
-                        <div class="ht-id">#BUY-4815</div>
-                        <div>
-                            <div class="ht-mat">PCB / Motherboards Grade A</div>
-                            <div class="ht-mat-sub">EcoChip Recyclers · Noida</div>
-                        </div>
-                        <div class="ht-num">5 MT</div>
-                        <div class="ht-num" style="color:var(--green)">₹41L</div>
-                        <div><span class="bid-type bt-buy">BUY</span></div>
-                        <div class="ht-num">14 Mar 2024</div>
-                        <div><span class="status-badge s-complete">Complete</span></div>
-                    </div>
-                    <div class="ht-row" data-type="sell" data-status="complete">
-                        <div class="ht-id">#SELL-4814</div>
-                        <div>
-                            <div class="ht-mat">Stainless Steel 304</div>
-                            <div class="ht-mat-sub">Vedanta Metals · Silvassa</div>
-                        </div>
-                        <div class="ht-num">30 MT</div>
-                        <div class="ht-num" style="color:var(--blue)">₹26.1L</div>
-                        <div><span class="bid-type bt-sell">SELL</span></div>
-                        <div class="ht-num">12 Mar 2024</div>
-                        <div><span class="status-badge s-complete">Complete</span></div>
-                    </div>
-                    <div class="ht-row" data-type="buy" data-status="pending">
-                        <div class="ht-id">#BUY-4813</div>
-                        <div>
-                            <div class="ht-mat">Crumb Rubber 0.5mm</div>
-                            <div class="ht-mat-sub">BioRubber Innovations · Pune</div>
-                        </div>
-                        <div class="ht-num">40 MT</div>
-                        <div class="ht-num" style="color:var(--gold)">₹2L</div>
-                        <div><span class="bid-type bt-buy">BUY</span></div>
-                        <div class="ht-num">10 Mar 2024</div>
-                        <div><span class="status-badge s-pending">Pending</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ════ PROFILE ════ -->
-            <div class="view" id="v-profile">
-                <div class="profile-layout">
-                    <!-- Profile Card -->
-                    <div>
-                        <div class="profile-card">
-                            <div class="profile-cover"></div>
-                            <div class="profile-avatar-wrap">
-                                <div class="profile-avatar">RK</div>
-                                <div class="verified-chip">✓ VERIFIED DEALER</div>
-                            </div>
-                            <div class="profile-info">
-                                <div class="profile-name">Rajesh Kumar</div>
-                                <div class="profile-business">Rajesh Kumar Metals & Scrap Pvt Ltd</div>
-                                <div class="profile-location">📍 Jaipur, Rajasthan · India</div>
-                                <div class="profile-stats">
-                                    <div class="ps-item">
-                                        <div class="ps-val">48</div>
-                                        <div class="ps-lbl">Trades</div>
-                                    </div>
-                                    <div class="ps-item">
-                                        <div class="ps-val">4.92</div>
-                                        <div class="ps-lbl">Rating</div>
-                                    </div>
-                                    <div class="ps-item">
-                                        <div class="ps-val">3 yrs</div>
-                                        <div class="ps-lbl">Member</div>
-                                    </div>
-                                </div>
-                                <div class="profile-badges">
-                                    <span class="pbadge"
-                                        style="background:var(--green2);color:var(--green);border:1px solid rgba(0,217,126,0.25)">✓
-                                        GST Verified</span>
-                                    <span class="pbadge"
-                                        style="background:var(--blue2);color:var(--blue);border:1px solid rgba(61,139,255,0.25)">📜
-                                        License Valid</span>
-                                    <span class="pbadge"
-                                        style="background:var(--gold2);color:var(--gold);border:1px solid rgba(255,184,0,0.25)">🏆
-                                        Top Dealer</span>
-                                    <span class="pbadge"
-                                        style="background:rgba(167,139,250,0.1);color:var(--purple);border:1px solid rgba(167,139,250,0.25)">🌐
-                                        Export Ready</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Profile Right -->
-                    <div class="profile-right">
-                        <div class="info-section">
-                            <div class="info-section-title">
-                                Business Information
-                                <span class="edit-btn" onclick="showToast('Edit mode enabled')">✏ EDIT</span>
-                            </div>
-                            <div class="info-grid">
-                                <div class="info-row">
-                                    <div class="info-label">Full Name</div>
-                                    <div class="info-val">Rajesh Kumar</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">Business Name</div>
-                                    <div class="info-val">Rajesh Kumar Metals & Scrap Pvt Ltd</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">Role / Type</div>
-                                    <div class="info-val">Dealer — Metals & Scrap</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">Mobile</div>
-                                    <div class="info-val">+91 98765 43210</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">Email</div>
-                                    <div class="info-val">rajesh@rkmetals.in</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">City</div>
-                                    <div class="info-val">Jaipur, Rajasthan</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">GST Number</div>
-                                    <div class="info-val">08AABCR1234M1Z5</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">Member Since</div>
-                                    <div class="info-val">March 2021</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="info-section">
-                            <div class="info-section-title">
-                                License & Documents
-                                <span class="edit-btn" onclick="showToast('Document upload opened')">+ UPLOAD</span>
-                            </div>
-                            <div class="info-grid">
-                                <div class="info-row">
-                                    <div class="info-label">Trade License</div>
-                                    <div class="info-val" style="color:var(--green)">✓ Valid · Exp Dec 2025</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">GST Certificate</div>
-                                    <div class="info-val" style="color:var(--green)">✓ Verified</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">PAN Card</div>
-                                    <div class="info-val" style="color:var(--green)">✓ Verified</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">Export License</div>
-                                    <div class="info-val" style="color:var(--green)">✓ Valid · IEC Active</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">Bank Account</div>
-                                    <div class="info-val" style="color:var(--green)">✓ Linked & Verified</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">Pollution NOC</div>
-                                    <div class="info-val" style="color:var(--gold)">⚠ Renewal Due May 2024</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="info-section">
-                            <div class="info-section-title">Materials I Deal In</div>
-                            <div style="padding:1rem 1.2rem;display:flex;gap:0.5rem;flex-wrap:wrap">
-                                <span class="pbadge"
-                                    style="background:var(--card2);color:var(--text);border:1px solid var(--border)">⚙️
-                                    Metals</span>
-                                <span class="pbadge"
-                                    style="background:var(--card2);color:var(--text);border:1px solid var(--border)">🏗️
-                                    TMT Bars</span>
-                                <span class="pbadge"
-                                    style="background:var(--card2);color:var(--text);border:1px solid var(--border)">🟠
-                                    Copper Scrap</span>
-                                <span class="pbadge"
-                                    style="background:var(--card2);color:var(--text);border:1px solid var(--border)">📄
-                                    Paper</span>
-                                <span class="pbadge"
-                                    style="background:var(--card2);color:var(--text);border:1px solid var(--border)">💻
-                                    E-Waste</span>
-                                <span class="pbadge"
-                                    style="background:var(--card2);color:var(--text);border:1px solid var(--border)">🧴
-                                    Plastic</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ════ NOTIFICATIONS ════ -->
-            <div class="view" id="v-notifs">
-                <div class="notif-list">
-                    <div class="notif-item unread">
-                        <div class="notif-icon-wrap" style="background:var(--green2)">🎯</div>
-                        <div class="notif-content">
-                            <div class="notif-title">New Sell Listing Matches Your Buy Request</div>
-                            <div class="notif-desc">SteelKraft Pvt Ltd posted 500 MT of Iron HMS 1&2 at ₹32,100/MT —
-                                matches your open buy request.</div>
-                            <div class="notif-time">2 minutes ago</div>
-                        </div>
-                        <div class="notif-unread-dot"></div>
-                    </div>
-                    <div class="notif-item unread">
-                        <div class="notif-icon-wrap" style="background:var(--blue2)">🚛</div>
-                        <div class="notif-content">
-                            <div class="notif-title">Shipment #BUY-4819 Update</div>
-                            <div class="notif-desc">Your copper scrap order (12 MT) has departed JNPT and is in transit.
-                                Expected delivery: 19 Mar, Jaipur.</div>
-                            <div class="notif-time">45 minutes ago</div>
-                        </div>
-                        <div class="notif-unread-dot"></div>
-                    </div>
-                    <div class="notif-item unread">
-                        <div class="notif-icon-wrap" style="background:var(--gold2)">💰</div>
-                        <div class="notif-content">
-                            <div class="notif-title">Payment Received — ₹26L</div>
-                            <div class="notif-desc">Payment for Trade #SELL-4820 (Iron Scrap, 80 MT) received from
-                                BharatMetal Dealers. Credited to your account.</div>
-                            <div class="notif-time">3 hours ago</div>
-                        </div>
-                        <div class="notif-unread-dot"></div>
-                    </div>
-                    <div class="notif-item unread">
-                        <div class="notif-icon-wrap" style="background:var(--red2)">⚠️</div>
-                        <div class="notif-content">
-                            <div class="notif-title">Document Renewal Reminder</div>
-                            <div class="notif-desc">Your Pollution NOC is due for renewal in May 2024. Upload updated
-                                document to maintain verified status.</div>
-                            <div class="notif-time">Yesterday</div>
-                        </div>
-                        <div class="notif-unread-dot"></div>
-                    </div>
-                    <div class="notif-item unread">
-                        <div class="notif-icon-wrap" style="background:rgba(167,139,250,0.1)">🏆</div>
-                        <div class="notif-content">
-                            <div class="notif-title">You're Now a Top 5% Dealer!</div>
-                            <div class="notif-desc">Congratulations! Based on your trade volume and rating (4.92),
-                                you've been ranked in the Top 5% of dealers on ScrapConnect.</div>
-                            <div class="notif-time">2 days ago</div>
-                        </div>
-                        <div class="notif-unread-dot"></div>
-                    </div>
-                    <div class="notif-item">
-                        <div class="notif-icon-wrap" style="background:var(--green2)">✓</div>
-                        <div class="notif-content">
-                            <div class="notif-title">Trade #BUY-4815 Completed</div>
-                            <div class="notif-desc">Your PCB/Motherboard purchase (5 MT, ₹41L) from EcoChip Recyclers
-                                has been marked complete. Rate your experience.</div>
-                            <div class="notif-time">4 days ago</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ════ TRANSPORTERS ════ -->
-            <div class="view" id="v-transport">
-                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem">
-                    <div class="panel">
-                        <div class="panel-header">
-                            <div class="panel-title">🚛 Sharma Logistics Pvt Ltd</div><span
-                                class="status-badge s-complete">VERIFIED</span>
-                        </div>
-                        <div style="padding:1rem 1.2rem">
-                            <div
-                                style="font-size:0.78rem;color:var(--muted2);margin-bottom:0.8rem;font-family:'IBM Plex Mono',monospace">
-                                📍 Jaipur → Pan India · International</div>
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:0.8rem">
-                                <div style="background:var(--card2);padding:0.6rem;border-radius:4px">
-                                    <div style="font-size:0.68rem;color:var(--muted2)">Rating</div>
-                                    <div
-                                        style="font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--gold)">
-                                        4.88 ⭐</div>
-                                </div>
-                                <div style="background:var(--card2);padding:0.6rem;border-radius:4px">
-                                    <div style="font-size:0.68rem;color:var(--muted2)">Capacity</div>
-                                    <div
-                                        style="font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--white)">
-                                        Up to 25 MT</div>
-                                </div>
-                                <div style="background:var(--card2);padding:0.6rem;border-radius:4px">
-                                    <div style="font-size:0.68rem;color:var(--muted2)">License</div>
-                                    <div style="font-size:0.78rem;color:var(--green)">✓ Valid</div>
-                                </div>
-                                <div style="background:var(--card2);padding:0.6rem;border-radius:4px">
-                                    <div style="font-size:0.68rem;color:var(--muted2)">Delivery</div>
-                                    <div style="font-size:0.78rem;color:var(--white)">2–7 days</div>
-                                </div>
-                            </div>
-                            <button class="submit-btn btn-buy" style="font-size:0.78rem;padding:0.6rem"
-                                onclick="showToast('Contact request sent to Sharma Logistics')">CONTACT
-                                TRANSPORTER</button>
-                        </div>
-                    </div>
-                    <div class="panel">
-                        <div class="panel-header">
-                            <div class="panel-title">🚚 FastMove Cargo India</div><span
-                                class="status-badge s-complete">VERIFIED</span>
-                        </div>
-                        <div style="padding:1rem 1.2rem">
-                            <div
-                                style="font-size:0.78rem;color:var(--muted2);margin-bottom:0.8rem;font-family:'IBM Plex Mono',monospace">
-                                📍 Mumbai → Export / JNPT</div>
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:0.8rem">
-                                <div style="background:var(--card2);padding:0.6rem;border-radius:4px">
-                                    <div style="font-size:0.68rem;color:var(--muted2)">Rating</div>
-                                    <div
-                                        style="font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--gold)">
-                                        4.91 ⭐</div>
-                                </div>
-                                <div style="background:var(--card2);padding:0.6rem;border-radius:4px">
-                                    <div style="font-size:0.68rem;color:var(--muted2)">Capacity</div>
-                                    <div
-                                        style="font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--white)">
-                                        Up to 100 MT</div>
-                                </div>
-                                <div style="background:var(--card2);padding:0.6rem;border-radius:4px">
-                                    <div style="font-size:0.68rem;color:var(--muted2)">License</div>
-                                    <div style="font-size:0.78rem;color:var(--green)">✓ IEC Active</div>
-                                </div>
-                                <div style="background:var(--card2);padding:0.6rem;border-radius:4px">
-                                    <div style="font-size:0.68rem;color:var(--muted2)">Specialty</div>
-                                    <div style="font-size:0.78rem;color:var(--white)">Export Docs</div>
-                                </div>
-                            </div>
-                            <button class="submit-btn btn-buy" style="font-size:0.78rem;padding:0.6rem"
-                                onclick="showToast('Contact request sent to FastMove Cargo')">CONTACT
-                                TRANSPORTER</button>
-                        </div>
-                    </div>
-                    <div class="panel">
-                        <div class="panel-header">
-                            <div class="panel-title">🏗️ HeavyHaul Logistics</div><span
-                                class="status-badge s-complete">VERIFIED</span>
-                        </div>
-                        <div style="padding:1rem 1.2rem">
-                            <div
-                                style="font-size:0.78rem;color:var(--muted2);margin-bottom:0.8rem;font-family:'IBM Plex Mono',monospace">
-                                📍 Delhi NCR → North India</div>
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:0.8rem">
-                                <div style="background:var(--card2);padding:0.6rem;border-radius:4px">
-                                    <div style="font-size:0.68rem;color:var(--muted2)">Rating</div>
-                                    <div
-                                        style="font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--gold)">
-                                        4.79 ⭐</div>
-                                </div>
-                                <div style="background:var(--card2);padding:0.6rem;border-radius:4px">
-                                    <div style="font-size:0.68rem;color:var(--muted2)">Capacity</div>
-                                    <div
-                                        style="font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--white)">
-                                        Up to 50 MT</div>
-                                </div>
-                                <div style="background:var(--card2);padding:0.6rem;border-radius:4px">
-                                    <div style="font-size:0.68rem;color:var(--muted2)">License</div>
-                                    <div style="font-size:0.78rem;color:var(--green)">✓ Valid</div>
-                                </div>
-                                <div style="background:var(--card2);padding:0.6rem;border-radius:4px">
-                                    <div style="font-size:0.68rem;color:var(--muted2)">Specialty</div>
-                                    <div style="font-size:0.78rem;color:var(--white)">Heavy Metal</div>
-                                </div>
-                            </div>
-                            <button class="submit-btn btn-buy" style="font-size:0.78rem;padding:0.6rem"
-                                onclick="showToast('Contact request sent to HeavyHaul Logistics')">CONTACT
-                                TRANSPORTER</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div><!-- /content -->
-    </div><!-- /main -->
-
-    <!-- TOAST -->
-    <div id="toast"></div>
+    <div class="success-toast" id="toast">✅ Listing posted successfully!</div>
 
     <script>
-        /* ── NAVIGATION ── */
-        const titles = { overview: 'OVERVIEW', buy: 'BUY MATERIALS', sell: 'SELL MATERIALS', history: 'TRADE HISTORY', profile: 'MY PROFILE', notifs: 'NOTIFICATIONS', transport: 'TRANSPORTERS' };
+        // ─── AUTH ─────────────────────────────────────────────
+        const session = JSON.parse(localStorage.getItem('sc_session') || 'null');
+        const users = JSON.parse(localStorage.getItem('sc_users') || '[]');
+        let currentUser = null;
 
-        function switchView(id, el) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById('v-' + id).classList.add('active');
-            document.getElementById('pageTitle').textContent = titles[id] || id.toUpperCase();
-            if (el) {
-                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                el.classList.add('active');
+        if (!session || !session.userId) { window.location.href = '/'; }
+        else {
+            currentUser = users.find(u => u.id === session.userId);
+            if (!currentUser) window.location.href = '/';
+            else {
+                document.getElementById('sidebarAvatar').textContent = currentUser.avatar || currentUser.firstName[0];
+                document.getElementById('sidebarName').textContent = currentUser.firstName + ' ' + currentUser.lastName;
+                document.getElementById('sidebarRoleSub').textContent = currentUser.role;
+                document.getElementById('sidebarRole').textContent = currentUser.role.toUpperCase();
+                document.getElementById('listLocation').value = currentUser.city || '';
             }
         }
 
-        /* ── CLOCK ── */
-        function tick() {
-            const t = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Kolkata' });
-            document.getElementById('liveClock').textContent = t;
-        }
-        setInterval(tick, 1000); tick();
+        function logout() { localStorage.removeItem('sc_session'); window.location.href = '/'; }
 
-        /* ── BUY ESTIMATE ── */
-        const buyPrices = { 'TMT Bars Fe-500D': 52800, 'Iron Scrap HMS 1&2': 32500, 'Copper Scrap Bare Bright': 7200, 'Aluminium Mixed Alloy': 145, 'Stainless Steel 304': 87000, 'Brass Yellow Scrap': 360 };
-        function updateBuyEstimate() {
-            const sel = document.querySelector('#v-buy select:nth-of-type(2)');
-            const qty = parseInt(document.getElementById('buyQty').value) || 0;
-            const key = sel ? sel.value.split(' — ')[0] : 'TMT Bars Fe-500D';
-            const price = buyPrices[key] || 52800;
-            const mat = qty * price;
-            const gst = mat * 0.18;
-            const trans = 45000;
-            const total = mat + gst + trans;
-            document.getElementById('buyEstVal').textContent = '₹' + total.toLocaleString('en-IN');
+        // ─── CLOCK ────────────────────────────────────────────
+        function updateClock() {
+            document.getElementById('clock').textContent =
+                new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Kolkata' }) + ' IST';
+        }
+        setInterval(updateClock, 1000); updateClock();
+
+        // ─── LISTINGS ─────────────────────────────────────────
+        let filterType = 'all';
+
+        function getListings() { return JSON.parse(localStorage.getItem('sc_listings') || '[]'); }
+        function saveListings(arr) { localStorage.setItem('sc_listings', JSON.stringify(arr)); }
+
+        function postListing() {
+            const name = document.getElementById('listName').value.trim();
+            const cat = document.getElementById('listCat').value;
+            const grade = document.getElementById('listGrade').value.trim();
+            const price = document.getElementById('listPrice').value.trim();
+            const unit = document.getElementById('listUnit').value;
+            const type = document.getElementById('listType').value;
+            const qty = document.getElementById('listQty').value.trim();
+            const loc = document.getElementById('listLocation').value.trim() || currentUser.city;
+            const desc = document.getElementById('listDesc').value.trim();
+
+            if (!name) return alert('Please enter material name.');
+            if (!price || isNaN(price)) return alert('Please enter a valid price.');
+
+            const listing = {
+                id: 'lst_' + Date.now(),
+                name, cat, grade, price: parseInt(price), unit, type, qty, location: loc, desc,
+                postedBy: currentUser.id,
+                posterName: currentUser.fullName,
+                posterBusiness: currentUser.business,
+                posterRole: currentUser.role,
+                postedAt: new Date().toISOString()
+            };
+
+            const all = getListings();
+            all.unshift(listing);
+            saveListings(all);
+
+            // Clear form
+            ['listName', 'listGrade', 'listPrice', 'listQty', 'listDesc'].forEach(id => document.getElementById(id).value = '');
+
+            showToast();
+            renderListings();
         }
 
-        /* ── SELL ESTIMATE ── */
-        function updateSellEstimate() {
-            const qty = parseFloat(document.getElementById('sellQty').value) || 0;
-            const price = parseFloat(document.getElementById('sellPrice').value) || 0;
-            if (qty && price) {
-                const total = qty * price;
-                document.getElementById('sellEstVal').textContent = '₹' + total.toLocaleString('en-IN');
-            }
-        }
-
-        /* ── HISTORY FILTER ── */
-        function filterHistory(f, btn) {
-            document.querySelectorAll('.hf-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            document.querySelectorAll('.ht-row').forEach(row => {
-                const type = row.dataset.type;
-                const status = row.dataset.status;
-                let show = false;
-                if (f === 'all') show = true;
-                else if (f === 'buy') show = type === 'buy';
-                else if (f === 'sell') show = type === 'sell';
-                else show = status === f;
-                row.style.display = show ? '' : 'none';
-            });
-        }
-
-        /* ── TOAST ── */
-        function showToast(msg) {
+        function showToast() {
             const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 3000);
+            t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 2500);
         }
 
-        /* ── LOGOUT ── */
-        function handleLogout() {
-            const btn = document.querySelector('.logout-btn');
-            btn.textContent = 'LOGGING OUT...';
-            btn.style.background = 'var(--red2)';
-            btn.style.borderColor = 'var(--red)';
-            
-            setTimeout(() => {
-                btn.textContent = '✓ LOGGED OUT';
-                setTimeout(() => {
-                    window.location.href = 'login-page.html';
-                }, 800);
-            }, 1200);
+        function filterListings(type, btn) {
+            filterType = type;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            renderListings();
         }
 
-        /* ── FORM SUBMISSION SIMULATION ── */
-        document.querySelectorAll('.submit-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const original = btn.textContent;
-                btn.textContent = 'PROCESSING...';
-                btn.disabled = true;
-                btn.style.opacity = '0.7';
-                
-                setTimeout(() => {
-                    btn.textContent = '✓ SUCCESS';
-                    showToast('Transaction submitted successfully!');
-                    setTimeout(() => {
-                        btn.textContent = original;
-                        btn.disabled = false;
-                        btn.style.opacity = '1';
-                    }, 1500);
-                }, 1200);
-            });
-        });
+        const typeLabel = { sell: 'SELLING', buy: 'BUYING', export: 'EXPORT' };
+        const typeClass = { sell: 'tag-sell', buy: 'tag-buy', export: 'tag-export' };
+        const catIcon = { metal: '⚙️', plastic: '🧴', paper: '📰', ewaste: '💻', rubber: '🔧', construction: '🏗️' };
+
+        function renderListings() {
+            const all = getListings();
+            const filtered = filterType === 'all' ? all : all.filter(l => l.type === filterType);
+            const grid = document.getElementById('listingsGrid');
+            document.getElementById('listCount').textContent = filtered.length + ' listing' + (filtered.length !== 1 ? 's' : '');
+
+            if (!filtered.length) {
+                grid.innerHTML = '<div class="empty-state">No ' + filterType + ' listings yet. Post one above! 👆</div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(l => `
+    <div class="listing-card">
+      <div class="lc-top">
+        <div>
+          <div class="lc-name">${catIcon[l.cat] || '📦'} ${l.name}</div>
+          <div class="lc-company">${l.posterBusiness || l.posterRole} · ${l.location || '—'}</div>
+        </div>
+        <div>
+          <div class="lc-price">₹${parseInt(l.price).toLocaleString('en-IN')}</div>
+          <div class="lc-unit">${l.unit}</div>
+        </div>
+      </div>
+      ${l.desc ? `<div class="lc-body">${l.desc}</div>` : ''}
+      <div class="lc-meta">
+        <span class="lc-tag ${typeClass[l.type]}">${typeLabel[l.type]}</span>
+        ${l.grade ? `<span class="lc-tag" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted)">${l.grade}</span>` : ''}
+        ${l.qty ? `<span class="lc-tag" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted)">Qty: ${l.qty}</span>` : ''}
+      </div>
+      <div class="lc-footer">
+        <div class="lc-poster">By <strong>${l.posterName}</strong> · ${new Date(l.postedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</div>
+        <button class="contact-btn" onclick="alert('Contact: ${l.posterName}\\nBusiness: ${l.posterBusiness}\\nRole: ${l.posterRole}')">Contact →</button>
+      </div>
+    </div>
+  `).join('');
+        }
+
+        // ─── TICKER (simple static for overview) ──────────────
+        async function buildTicker() {
+            try {
+                const r = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                const d = await r.json();
+                const rate = d.rates?.INR || 83.5;
+                const pairs = [
+                    { name: 'Copper', usd: 9200, unit: 'MT' }, { name: 'Aluminium', usd: 2450, unit: 'MT' },
+                    { name: 'Lead', usd: 2100, unit: 'MT' }, { name: 'Zinc', usd: 2900, unit: 'MT' }
+                ];
+                const items = pairs.map(p => {
+                    const inr = Math.round(p.usd * rate * 0.68);
+                    const ch = parseFloat(((Math.random() - .48) * 3).toFixed(1));
+                    return `<span class="${ch < 0 ? 'dn' : 'up'}">⚙️ ${p.name}: ₹${inr.toLocaleString('en-IN')}/${p.unit} (${ch > 0 ? '+' : ''}${ch}%)</span>`;
+                }).join('');
+                const t = document.getElementById('ticker');
+                t.innerHTML = items + items;
+            } catch (e) { }
+        }
+
+        buildTicker();
+        renderListings();
     </script>
 </body>
 
