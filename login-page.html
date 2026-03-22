@@ -633,7 +633,19 @@
             transform: translateY(-1px);
         }
 
-        /* Bottom tag */
+        .btn-login:active, .btn-register:active, .role-btn:active {
+            transform: scale(0.98) translateY(1px);
+        }
+
+        .btn-login, .btn-register, .role-btn, .logo-row {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-row:hover {
+            opacity: 0.8;
+            transform: translateX(4px);
+        }
+
         .card-footer {
             text-align: center;
             margin-top: 1.5rem;
@@ -697,17 +709,16 @@
     <div class="page">
 
         <!-- LEFT PANEL -->
-        <div class="left">
-            <div class="logo-row">
-                <div class="logo-icon">
-                    <!-- Recycle SVG -->
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M12 2L8.5 8H4l3.5 6.06L4 20h5l3-5.2 3 5.2h5l-3.5-5.94L20 8h-4.5L12 2zm0 3.5l2.19 3.5H9.81L12 5.5zM6.27 9.5h2.96l-1.48 2.55L6.27 9.5zm9.5 0h2.96l-1.48 2.55L15.77 9.5zM8.73 14.5H6.5l1.11-1.93 1.12 1.93zm6.54 0l1.12-1.93 1.11 1.93h-2.23z" />
-                    </svg>
-                </div>
-                <span class="logo-name">ScrapConnect</span>
+        <a href="scrap-connect.html" class="logo-row" style="text-decoration:none;">
+            <div class="logo-icon">
+                <!-- Recycle SVG -->
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 2L8.5 8H4l3.5 6.06L4 20h5l3-5.2 3 5.2h5l-3.5-5.94L20 8h-4.5L12 2zm0 3.5l2.19 3.5H9.81L12 5.5zM6.27 9.5h2.96l-1.48 2.55L6.27 9.5zm9.5 0h2.96l-1.48 2.55L15.77 9.5zM8.73 14.5H6.5l1.11-1.93 1.12 1.93zm6.54 0l1.12-1.93 1.11 1.93h-2.23z" />
+                </svg>
             </div>
+            <span class="logo-name">ScrapConnect</span>
+        </a>
 
             <p class="hero-label">India's Recycling Marketplace</p>
 
@@ -828,15 +839,27 @@
                 btn.innerHTML = '<span class="shimmer"></span>✓ Welcome Back!';
                 btn.style.background = 'var(--forest)';
                 setTimeout(() => {
-                    btn.innerHTML = '<span class="shimmer"></span>Sign In';
-                    btn.style.opacity = '1';
-                    btn.style.background = '';
-                }, 2000);
+                    // Redirect to dashboard
+                    window.location.href = 'overview.html';
+                }, 800);
             }, 1200);
         }
 
         function handleRegister() {
-            alert('Registration flow coming soon! 🌱');
+            const btn = document.querySelector('.btn-register');
+            const originalText = btn.textContent;
+            btn.textContent = 'Creating Account...';
+            btn.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                btn.textContent = '✓ Account Created!';
+                btn.style.background = 'rgba(76, 175, 80, 0.2)';
+                btn.style.borderColor = 'var(--mid)';
+                
+                setTimeout(() => {
+                    window.location.href = 'overview.html';
+                }, 1000);
+            }, 1500);
         }
     </script>
 </body>

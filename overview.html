@@ -73,6 +73,20 @@
             border-bottom: 1px solid var(--border);
         }
 
+        .logo-link {
+            text-decoration: none;
+            display: block;
+            transition: opacity 0.2s;
+        }
+
+        .logo-link:hover {
+            opacity: 0.8;
+        }
+
+        .logo-link:active {
+            transform: scale(0.98);
+        }
+
         .logo-text {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 1.6rem;
@@ -1235,6 +1249,26 @@
             pointer-events: none;
         }
 
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: none
+        }
+
+        /* Smoothing button transitions */
+        .nav-item, .hf-btn, .submit-btn, .notif-btn, .panel-action, .logout-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-item:active, .hf-btn:active, .submit-btn:active, .notif-btn:active, .panel-action:active, .logout-btn:active {
+            transform: scale(0.96) translateY(1px);
+        }
+
         #toast.show {
             opacity: 1;
             transform: translateY(0)
@@ -1311,8 +1345,10 @@
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="sidebar-logo">
-            <div class="logo-text">Scrap<span>Connect</span></div>
-            <div class="logo-sub">// DEALER PORTAL</div>
+            <a href="scrap-connect.html" class="logo-link">
+                <div class="logo-text">Scrap<span>Connect</span></div>
+                <div class="logo-sub">DASHBOARD v2.4</div>
+            </a>
         </div>
         <div class="sidebar-user">
             <div class="user-avatar">RK</div>
@@ -1346,7 +1382,7 @@
         </div>
 
         <div class="sidebar-bottom">
-            <button class="logout-btn" onclick="showToast('Logging out...')">⏻ <span>SIGN OUT</span></button>
+            <button class="logout-btn" onclick="handleLogout()">LOGOUT ASSET SECURELY</button>
         </div>
     </aside>
 
@@ -2465,6 +2501,41 @@
             t.classList.add('show');
             setTimeout(() => t.classList.remove('show'), 3000);
         }
+
+        /* ── LOGOUT ── */
+        function handleLogout() {
+            const btn = document.querySelector('.logout-btn');
+            btn.textContent = 'LOGGING OUT...';
+            btn.style.background = 'var(--red2)';
+            btn.style.borderColor = 'var(--red)';
+            
+            setTimeout(() => {
+                btn.textContent = '✓ LOGGED OUT';
+                setTimeout(() => {
+                    window.location.href = 'login-page.html';
+                }, 800);
+            }, 1200);
+        }
+
+        /* ── FORM SUBMISSION SIMULATION ── */
+        document.querySelectorAll('.submit-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const original = btn.textContent;
+                btn.textContent = 'PROCESSING...';
+                btn.disabled = true;
+                btn.style.opacity = '0.7';
+                
+                setTimeout(() => {
+                    btn.textContent = '✓ SUCCESS';
+                    showToast('Transaction submitted successfully!');
+                    setTimeout(() => {
+                        btn.textContent = original;
+                        btn.disabled = false;
+                        btn.style.opacity = '1';
+                    }, 1500);
+                }, 1200);
+            });
+        });
     </script>
 </body>
 

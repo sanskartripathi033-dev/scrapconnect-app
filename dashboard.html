@@ -69,13 +69,24 @@
             background: rgba(6, 8, 13, 0.9);
             backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
         }
 
         .logo {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 1.7rem;
             letter-spacing: 3px;
-            color: var(--gold)
+            color: var(--gold);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .logo:hover {
+            opacity: 0.8;
+        }
+
+        .logo:active {
+            transform: scale(0.98);
         }
 
         .logo span {
@@ -768,6 +779,19 @@
             opacity: 1;
             transform: none
         }
+
+        /* Smoothing button transitions */
+        .tab, .region-btn, .promo-btn, .mcard {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab:active, .region-btn:active, .promo-btn:active {
+            transform: scale(0.96) translateY(1px);
+        }
+
+        .mcard:active {
+            transform: scale(0.99);
+        }
     </style>
 </head>
 
@@ -775,7 +799,7 @@
 
     <!-- NAV -->
     <nav>
-        <div class="logo">Scrap<span>Connect</span></div>
+        <a href="scrap-connect.html" class="logo">Scrap<span>Connect</span></a>
         <div class="live-badge">
             <div class="live-dot"></div>LIVE MARKET
         </div>
@@ -1053,10 +1077,28 @@
           <div class="promo-price">${p.price}</div>
           <span class="promo-tag ${tagClass[p.tag]}">${tagLabel[p.tag]}</span>
         </div>
-        <a href="#" class="promo-btn">CONTACT COMPANY →</a>
+        <button onclick="simulateContact(this)" class="promo-btn">CONTACT COMPANY →</button>
       </div>
     </div>
   `).join('');
+        }
+
+        function simulateContact(btn) {
+            const original = btn.textContent;
+            btn.textContent = 'CONNECTING...';
+            btn.style.opacity = '0.7';
+            setTimeout(() => {
+                btn.textContent = '✓ REQUEST SENT';
+                btn.style.background = 'var(--green)';
+                btn.style.color = 'var(--bg)';
+                setTimeout(() => {
+                    btn.textContent = original;
+                    btn.style.opacity = '1';
+                    btn.style.background = '';
+                    btn.style.color = '';
+                    window.location.href = 'overview.html';
+                }, 1000);
+            }, 1200);
         }
 
         /* ────── TICKER ────── */
