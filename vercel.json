@@ -1,0 +1,27 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "*.html",
+            "use": "@vercel/static"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/",
+            "dest": "/login-page.html"
+        },
+        {
+            "src": "/dashboard",
+            "dest": "/dashboard.html"
+        },
+        {
+            "src": "/overview",
+            "dest": "/overview.html"
+        },
+        {
+            "src": "/scrap-connect",
+            "dest": "/scrap-connect.html"
+        }
+    ]
+}

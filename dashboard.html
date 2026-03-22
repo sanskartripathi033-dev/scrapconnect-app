@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScrapConnect — Live Market & Business Hub</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@400;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #06080d;
+            --bg2: #0c0f18;
+            --bg3: #111520;
+            --card: #0f1320;
+            --border: rgba(255, 255, 255, 0.07);
+            --green: #00e676;
+            --red: #ff3d57;
+            --gold: #ffd740;
+            --blue: #448aff;
+            --text: #e8ecf5;
+            --muted: #5a6275;
+            --white: #fff;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Syne', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh
+        }
+
+        /* GRID BACKGROUND */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* NAV */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.9rem 3rem;
+            background: rgba(6, 8, 13, 0.9);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.7rem;
+            letter-spacing: 3px;
+            color: var(--gold)
+        }
+
+        .logo span {
+            color: var(--green)
+        }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--green);
+            letter-spacing: 1px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: blink 1.4s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(0.8)
+            }
+        }
+
+        .nav-time {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--muted)
+        }
+
+        /* TICKER */
+        .ticker-bar {
+            background: linear-gradient(90deg, #0a1628, #0d1f3c, #0a1628);
+            border-bottom: 1px solid rgba(68, 138, 255, 0.2);
+            padding: 0.5rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .ticker-track {
+            display: inline-block;
+            animation: tick 40s linear infinite
+        }
+
+        .ticker-track span {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            padding: 0 2rem;
+            color: var(--muted);
+        }
+
+        .ticker-track span.up {
+            color: var(--green)
+        }
+
+        .ticker-track span.dn {
+            color: var(--red)
+        }
+
+        @keyframes tick {
+            from {
+                transform: translateX(0)
+            }
+
+            to {
+                transform: translateX(-50%)
+            }
+        }
+
+        /* PAGE LAYOUT */
+        .page {
+            position: relative;
+            z-index: 1;
+            padding: 2rem 3rem 4rem
+        }
+
+        /* SECTION HEADER */
+        .section-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            color: var(--white);
+        }
+
+        .section-header h2 span {
+            color: var(--gold)
+        }
+
+        .section-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--blue);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid rgba(68, 138, 255, 0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 2px;
+        }
+
+        /* FILTER TABS */
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            padding: 0.45rem 1.1rem;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            border-color: var(--gold);
+            color: var(--gold)
+        }
+
+        .tab.active {
+            background: var(--gold);
+            color: var(--bg);
+            border-color: var(--gold);
+            font-weight: 700
+        }
+
+        /* MARKET TABLE */
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        .mcard {
+            background: var(--card);
+            padding: 1.4rem 1.6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            transition: background 0.2s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mcard::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--green);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.3s ease;
+        }
+
+        .mcard:hover {
+            background: var(--bg3)
+        }
+
+        .mcard:hover::before {
+            transform: scaleY(1)
+        }
+
+        .mcard.falling::before {
+            background: var(--red)
+        }
+
+        /* card top row */
+        .mcard-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .mcard-name {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem
+        }
+
+        .mcard-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .mcard-label {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--white)
+        }
+
+        .mcard-sub {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 0.1rem;
+            font-family: 'IBM Plex Mono', monospace
+        }
+
+        /* price */
+        .mcard-price-block {
+            text-align: right
+        }
+
+        .mcard-price {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .mcard-unit {
+            font-size: 0.68rem;
+            color: var(--muted);
+            font-family: 'IBM Plex Mono', monospace
+        }
+
+        .mcard-change {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            padding: 0.15rem 0.55rem;
+            border-radius: 2px;
+            margin-top: 0.3rem;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .up-change {
+            background: rgba(0, 230, 118, 0.12);
+            color: var(--green)
+        }
+
+        .dn-change {
+            background: rgba(255, 61, 87, 0.12);
+            color: var(--red)
+        }
+
+        /* sparkline bar */
+        .spark {
+            display: flex;
+            gap: 3px;
+            align-items: flex-end;
+            height: 28px
+        }
+
+        .spark-bar {
+            flex: 1;
+            border-radius: 1px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .mcard:hover .spark-bar {
+            opacity: 1
+        }
+
+        /* bottom row */
+        .mcard-bottom {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.5rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .mcard-stat {
+            text-align: center
+        }
+
+        .mcard-stat-val {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .mcard-stat-lbl {
+            font-size: 0.62rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.1rem
+        }
+
+        /* TOP BUYERS / SUPPLIERS TABLE */
+        .rankings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .rank-panel {
+            border: 1px solid var(--border);
+            background: var(--card);
+        }
+
+        .rank-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.4rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg3);
+        }
+
+        .rank-panel-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+        }
+
+        .rank-panel-title.buyers {
+            color: var(--blue)
+        }
+
+        .rank-panel-title.suppliers {
+            color: var(--green)
+        }
+
+        .rank-row {
+            display: grid;
+            grid-template-columns: 30px 1fr 90px 70px;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.9rem 1.4rem;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+        }
+
+        .rank-row:last-child {
+            border-bottom: none
+        }
+
+        .rank-row:hover {
+            background: var(--bg3)
+        }
+
+        .rank-num {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .rank-num.top {
+            color: var(--gold)
+        }
+
+        .rank-info .name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--white)
+        }
+
+        .rank-info .location {
+            font-size: 0.7rem;
+            color: var(--muted);
+            font-family: 'IBM Plex Mono', monospace;
+            margin-top: 0.15rem;
+        }
+
+        .rank-vol {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.78rem;
+            color: var(--white);
+            text-align: right;
+        }
+
+        .rank-badge {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.6rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 2px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .badge-buy {
+            background: rgba(68, 138, 255, 0.15);
+            color: var(--blue);
+            border: 1px solid rgba(68, 138, 255, 0.3)
+        }
+
+        .badge-sell {
+            background: rgba(0, 230, 118, 0.12);
+            color: var(--green);
+            border: 1px solid rgba(0, 230, 118, 0.25)
+        }
+
+        .badge-export {
+            background: rgba(255, 215, 64, 0.12);
+            color: var(--gold);
+            border: 1px solid rgba(255, 215, 64, 0.25)
+        }
+
+        /* PROMOTIONS */
+        .promo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .promo-card {
+            border: 1px solid var(--border);
+            background: var(--card);
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .promo-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 215, 64, 0.3)
+        }
+
+        .promo-banner {
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promo-body {
+            padding: 1.3rem
+        }
+
+        .promo-company {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .promo-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.5rem
+        }
+
+        .promo-desc {
+            font-size: 0.8rem;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 1rem
+        }
+
+        .promo-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .promo-price {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .promo-tag {
+            font-size: 0.65rem;
+            padding: 0.25rem 0.6rem;
+            font-family: 'IBM Plex Mono', monospace;
+            letter-spacing: 1px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .tag-new {
+            background: rgba(0, 230, 118, 0.15);
+            color: var(--green);
+            border: 1px solid rgba(0, 230, 118, 0.3)
+        }
+
+        .tag-launch {
+            background: rgba(255, 215, 64, 0.15);
+            color: var(--gold);
+            border: 1px solid rgba(255, 215, 64, 0.3)
+        }
+
+        .tag-deal {
+            background: rgba(255, 61, 87, 0.15);
+            color: var(--red);
+            border: 1px solid rgba(255, 61, 87, 0.3)
+        }
+
+        .tag-export {
+            background: rgba(68, 138, 255, 0.15);
+            color: var(--blue);
+            border: 1px solid rgba(68, 138, 255, 0.3)
+        }
+
+        .promo-btn {
+            display: block;
+            width: 100%;
+            margin-top: 1rem;
+            padding: 0.6rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .promo-btn:hover {
+            background: var(--gold);
+            color: var(--bg);
+            border-color: var(--gold);
+            font-weight: 700
+        }
+
+        /* SUMMARY STATS BAR */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-bottom: 2.5rem;
+        }
+
+        .stats-bar-item {
+            background: var(--card);
+            padding: 1.2rem 1.4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .sb-val {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.3rem;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .sb-lbl {
+            font-size: 0.68rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px
+        }
+
+        .sb-change {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem
+        }
+
+        /* REGION TOGGLE */
+        .region-bar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .region-btn {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 1px;
+        }
+
+        .region-btn.active {
+            background: var(--blue);
+            color: #fff;
+            border-color: var(--blue)
+        }
+
+        .region-btn:hover:not(.active) {
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        /* FOOTER */
+        .page-footer {
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-footer p {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--muted)
+        }
+
+        .disclaimer {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.62rem;
+            color: var(--muted);
+            opacity: 0.6;
+            max-width: 600px;
+            text-align: right;
+            line-height: 1.5
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:900px) {
+            nav {
+                padding: 0.8rem 1.5rem
+            }
+
+            .page {
+                padding: 1.5rem 1.2rem 3rem
+            }
+
+            .rankings-grid {
+                grid-template-columns: 1fr
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(3, 1fr)
+            }
+
+            .stats-bar-item:nth-child(4),
+            .stats-bar-item:nth-child(5) {
+                display: none
+            }
+        }
+
+        /* SCROLL REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: none
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="logo">Scrap<span>Connect</span></div>
+        <div class="live-badge">
+            <div class="live-dot"></div>LIVE MARKET
+        </div>
+        <div class="nav-time" id="clock">--:--:-- IST</div>
+    </nav>
+
+    <!-- TICKER -->
+    <div class="ticker-bar">
+        <div class="ticker-track" id="ticker"></div>
+    </div>
+
+    <div class="page">
+
+        <!-- SUMMARY STATS BAR -->
+        <div class="stats-bar reveal">
+            <div class="stats-bar-item">
+                <div class="sb-val">₹4,82,310 Cr</div>
+                <div class="sb-lbl">Total Market Volume Today</div>
+                <div class="sb-change up-change">↑ 3.2% vs yesterday</div>
+            </div>
+            <div class="stats-bar-item">
+                <div class="sb-val">6,840 MT</div>
+                <div class="sb-lbl">Metals Traded</div>
+                <div class="sb-change up-change">↑ 1.8%</div>
+            </div>
+            <div class="stats-bar-item">
+                <div class="sb-val">2,190 MT</div>
+                <div class="sb-lbl">Plastics Traded</div>
+                <div class="sb-change dn-change">↓ 0.5%</div>
+            </div>
+            <div class="stats-bar-item">
+                <div class="sb-val">318 Active</div>
+                <div class="sb-lbl">Verified Buyers</div>
+                <div class="sb-change up-change">↑ 12 new today</div>
+            </div>
+            <div class="stats-bar-item">
+                <div class="sb-val">204 Active</div>
+                <div class="sb-lbl">Active Suppliers</div>
+                <div class="sb-change up-change">↑ 7 new today</div>
+            </div>
+        </div>
+
+        <!-- DAILY PRICING -->
+        <div class="section-header reveal">
+            <div>
+                <div
+                    style="font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--gold);letter-spacing:2px;margin-bottom:0.4rem">
+                    // LIVE PRICING ENGINE</div>
+                <h2>DAILY MATERIAL <span>PRICES</span></h2>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:center">
+                <span class="section-tag">Updated: <span id="update-time">--:--</span></span>
+                <button onclick="refreshPrices()"
+                    style="font-family:'IBM Plex Mono',monospace;font-size:0.68rem;padding:0.35rem 0.9rem;background:rgba(0,230,118,0.1);border:1px solid var(--green);color:var(--green);cursor:pointer;letter-spacing:1px">↻
+                    REFRESH</button>
+            </div>
+        </div>
+
+        <!-- FILTER TABS -->
+        <div class="filter-tabs reveal" id="matFilter">
+            <button class="tab active" onclick="filterMat('all',this)">ALL MATERIALS</button>
+            <button class="tab" onclick="filterMat('metals',this)">⚙️ METALS</button>
+            <button class="tab" onclick="filterMat('plastic',this)">🧴 PLASTIC</button>
+            <button class="tab" onclick="filterMat('paper',this)">📄 PAPER</button>
+            <button class="tab" onclick="filterMat('rubber',this)">🔧 RUBBER</button>
+            <button class="tab" onclick="filterMat('ewaste',this)">💻 E-WASTE</button>
+            <button class="tab" onclick="filterMat('construction',this)">🏗️ CONSTRUCTION</button>
+        </div>
+
+        <!-- REGION TOGGLE -->
+        <div class="region-bar reveal">
+            <button class="region-btn active" onclick="setRegion('India',this)">🇮🇳 India</button>
+            <button class="region-btn" onclick="setRegion('Global',this)">🌐 Global</button>
+            <button class="region-btn" onclick="setRegion('North India',this)">North India</button>
+            <button class="region-btn" onclick="setRegion('South India',this)">South India</button>
+            <button class="region-btn" onclick="setRegion('West India',this)">West India</button>
+            <button class="region-btn" onclick="setRegion('East India',this)">East India</button>
+        </div>
+
+        <!-- MARKET CARDS GRID -->
+        <div class="market-grid" id="marketGrid"></div>
+
+        <!-- TOP BUYERS & SUPPLIERS -->
+        <div class="section-header reveal">
+            <div>
+                <div
+                    style="font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--blue);letter-spacing:2px;margin-bottom:0.4rem">
+                    // LEADERBOARD</div>
+                <h2>TOP BUYERS & <span>SUPPLIERS</span></h2>
+            </div>
+            <span class="section-tag">UPDATED DAILY</span>
+        </div>
+
+        <div class="rankings-grid reveal">
+            <!-- TOP BUYERS -->
+            <div class="rank-panel">
+                <div class="rank-panel-header">
+                    <div class="rank-panel-title buyers">🏆 TOP BUYERS — INDIA</div>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted)">by
+                        volume</span>
+                </div>
+                <div id="buyersList"></div>
+            </div>
+            <!-- TOP SUPPLIERS -->
+            <div class="rank-panel">
+                <div class="rank-panel-header">
+                    <div class="rank-panel-title suppliers">🥇 BEST SUPPLIERS — INDIA</div>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted)">by
+                        rating</span>
+                </div>
+                <div id="suppliersList"></div>
+            </div>
+        </div>
+
+        <!-- BUSINESS PROMOTION -->
+        <div class="section-header reveal">
+            <div>
+                <div
+                    style="font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--green);letter-spacing:2px;margin-bottom:0.4rem">
+                    // BUSINESS HUB</div>
+                <h2>COMPANY PITCHES & <span>LAUNCHES</span></h2>
+            </div>
+            <span class="section-tag">PROMOTE YOUR BUSINESS</span>
+        </div>
+
+        <div class="promo-grid" id="promoGrid"></div>
+
+        <!-- FOOTER -->
+        <div class="page-footer">
+            <p>© 2025 ScrapConnect · Live Market Data · India's Recycling Exchange</p>
+            <p class="disclaimer">Prices are indicative and based on market aggregation. Actual transaction prices may
+                vary. ScrapConnect is not liable for any trading decisions made based on this data.</p>
+        </div>
+
+    </div><!-- /page -->
+
+    <script>
+        /* ────── DATA ────── */
+        const materials = [
+            // METALS
+            { id: 'fe-scrap', cat: 'metals', icon: '🔩', color: '#546e7a', name: 'Iron / MS Scrap', grade: 'HMS 1&2', price: 32500, unit: 'per MT', change: +1.8, vol: '2,400 MT', avail: 'High', buyers: 84, spark: [60, 62, 58, 65, 70, 68, 72, 75] },
+            { id: 'ss-scrap', cat: 'metals', icon: '⚙️', color: '#78909c', name: 'Stainless Steel', grade: '304 Grade', price: 87000, unit: 'per MT', change: +2.4, vol: '320 MT', avail: 'Medium', buyers: 31, spark: [70, 72, 74, 71, 76, 78, 80, 82] },
+            { id: 'copper', cat: 'metals', icon: '🟠', color: '#bf5a0d', name: 'Copper Scrap', grade: 'Bare Bright', price: 7200, unit: 'per KG', change: +0.9, vol: '48 MT', avail: 'Low', buyers: 56, spark: [75, 74, 78, 80, 79, 82, 81, 84] },
+            { id: 'aluminium', cat: 'metals', icon: '🪨', color: '#7e8b8c', name: 'Aluminium Scrap', grade: 'Mixed Alloy', price: 145, unit: 'per KG', change: -1.1, vol: '210 MT', avail: 'High', buyers: 42, spark: [80, 78, 75, 73, 70, 68, 66, 65], falling: true },
+            { id: 'tmt', cat: 'metals', icon: '🏗️', color: '#424242', name: 'TMT Bars (Recycled)', grade: 'Fe-500D', price: 52800, unit: 'per MT', change: +3.2, vol: '780 MT', avail: 'High', buyers: 115, spark: [50, 55, 58, 60, 64, 68, 72, 78] },
+            { id: 'brass', cat: 'metals', icon: '🟡', color: '#a0892a', name: 'Brass Scrap', grade: 'Yellow Brass', price: 360, unit: 'per KG', change: +1.5, vol: '32 MT', avail: 'Medium', buyers: 27, spark: [60, 62, 65, 64, 68, 70, 69, 72] },
+
+            // PLASTIC
+            { id: 'pet', cat: 'plastic', icon: '🧴', color: '#1565c0', name: 'PET Bottles', grade: 'Clear Grade A', price: 28, unit: 'per KG', change: +0.4, vol: '480 MT', avail: 'High', buyers: 38, spark: [40, 42, 44, 45, 48, 47, 50, 52] },
+            { id: 'hdpe', cat: 'plastic', icon: '🥛', color: '#0277bd', name: 'HDPE Scrap', grade: 'Natural Color', price: 45, unit: 'per KG', change: -0.8, vol: '320 MT', avail: 'Medium', buyers: 29, spark: [55, 52, 50, 48, 46, 45, 44, 43], falling: true },
+            { id: 'pp', cat: 'plastic', icon: '🫙', color: '#00838f', name: 'Polypropylene (PP)', grade: 'Lumps / Regrind', price: 52, unit: 'per KG', change: +1.2, vol: '195 MT', avail: 'Medium', buyers: 22, spark: [42, 44, 48, 50, 52, 53, 55, 56] },
+            { id: 'pvc', cat: 'plastic', icon: '🔵', color: '#283593', name: 'PVC Scrap', grade: 'Rigid Grade', price: 22, unit: 'per KG', change: -1.8, vol: '140 MT', avail: 'High', buyers: 18, spark: [30, 28, 25, 24, 22, 20, 22, 21], falling: true },
+
+            // PAPER
+            { id: 'occ', cat: 'paper', icon: '📦', color: '#5d4037', name: 'OCC Cardboard', grade: 'Grade 11', price: 12, unit: 'per KG', change: +0.6, vol: '1,200 MT', avail: 'High', buyers: 64, spark: [30, 32, 34, 35, 36, 37, 38, 40] },
+            { id: 'newsprnt', cat: 'paper', icon: '📰', color: '#6d4c41', name: 'Newsprint / ONP', grade: 'Mixed', price: 8, unit: 'per KG', change: -0.3, vol: '640 MT', avail: 'High', buyers: 41, spark: [25, 24, 23, 22, 23, 22, 21, 22], falling: true },
+            { id: 'white-paper', cat: 'paper', icon: '📄', color: '#4e342e', name: 'White Office Paper', grade: 'SOP Grade', price: 18, unit: 'per KG', change: +1.0, vol: '280 MT', avail: 'Medium', buyers: 33, spark: [40, 42, 44, 46, 48, 49, 50, 52] },
+
+            // RUBBER
+            { id: 'tyre', cat: 'rubber', icon: '🚗', color: '#1b1b1b', name: 'Waste Tyres', grade: 'Mixed Sizes', price: 9, unit: 'per KG', change: +2.1, vol: '380 MT', avail: 'High', buyers: 26, spark: [30, 32, 35, 38, 40, 42, 44, 46] },
+            { id: 'industrial-rub', cat: 'rubber', icon: '🔧', color: '#212121', name: 'Industrial Rubber', grade: 'EPDM / NBR', price: 38, unit: 'per KG', change: +0.7, vol: '95 MT', avail: 'Low', buyers: 14, spark: [50, 52, 54, 55, 56, 57, 58, 60] },
+            { id: 'crumb', cat: 'rubber', icon: '🟤', color: '#3e2723', name: 'Crumb Rubber', grade: 'Granulated 0.5mm', price: 52, unit: 'per KG', change: +3.5, vol: '120 MT', avail: 'Medium', buyers: 19, spark: [35, 38, 42, 45, 48, 50, 52, 55] },
+
+            // E-WASTE
+            { id: 'pcb', cat: 'ewaste', icon: '💻', color: '#1a237e', name: 'PCB / Motherboards', grade: 'Grade A', price: 820, unit: 'per KG', change: +4.2, vol: '18 MT', avail: 'Low', buyers: 22, spark: [60, 65, 68, 70, 75, 78, 80, 84] },
+            { id: 'battery', cat: 'ewaste', icon: '🔋', color: '#1b5e20', name: 'Li-Ion Batteries', grade: 'Used Cells', price: 120, unit: 'per KG', change: +2.8, vol: '42 MT', avail: 'Medium', buyers: 31, spark: [55, 58, 60, 62, 65, 68, 70, 72] },
+            { id: 'ewire', cat: 'ewaste', icon: '🔌', color: '#4a148c', name: 'Copper Wire (E-Waste)', grade: 'Insulated', price: 420, unit: 'per KG', change: +1.6, vol: '28 MT', avail: 'Medium', buyers: 38, spark: [60, 62, 65, 66, 68, 70, 72, 74] },
+            { id: 'phone', cat: 'ewaste', icon: '📱', color: '#311b92', name: 'Old Phones / Devices', grade: 'Mixed Lot', price: 280, unit: 'per KG', change: +5.1, vol: '9 MT', avail: 'Low', buyers: 16, spark: [50, 54, 58, 62, 66, 70, 74, 80] },
+
+            // CONSTRUCTION
+            { id: 'ci-scrap', cat: 'construction', icon: '🏚️', color: '#37474f', name: 'Cast Iron Scrap', grade: 'Clean CI', price: 26000, unit: 'per MT', change: +1.3, vol: '540 MT', avail: 'High', buyers: 45, spark: [55, 57, 58, 60, 62, 64, 65, 66] },
+            { id: 'demo-steel', cat: 'construction', icon: '🔨', color: '#455a64', name: 'Demolition Steel', grade: 'Mixed Lengths', price: 29500, unit: 'per MT', change: -0.6, vol: '420 MT', avail: 'High', buyers: 37, spark: [65, 63, 61, 60, 58, 57, 56, 55], falling: true },
+            { id: 'concrete', cat: 'construction', icon: '🧱', color: '#616161', name: 'Concrete Aggregate', grade: 'Crushed 20mm', price: 850, unit: 'per MT', change: +0.2, vol: '2,100 MT', avail: 'High', buyers: 72, spark: [40, 41, 42, 42, 43, 44, 44, 45] },
+        ];
+
+        const buyers = [
+            { rank: 1, name: 'Tata Steel Recycling', location: 'Mumbai, Maharashtra', vol: '4,800 MT/mo', type: 'buy' },
+            { rank: 2, name: 'JSW Scrap Division', location: 'Bellary, Karnataka', vol: '3,200 MT/mo', type: 'buy' },
+            { rank: 3, name: 'Hindalco Industries', location: 'Renukoot, UP', vol: '2,700 MT/mo', type: 'buy' },
+            { rank: 4, name: 'Vedanta Metals Ltd', location: 'Silvassa, Gujarat', vol: '1,900 MT/mo', type: 'buy' },
+            { rank: 5, name: 'Global E-Recyclers', location: 'Delhi NCR', vol: '980 MT/mo', type: 'export' },
+            { rank: 6, name: 'RubberTech India', location: 'Pune, Maharashtra', vol: '760 MT/mo', type: 'buy' },
+            { rank: 7, name: 'PaperMill Corp', location: 'Vapi, Gujarat', vol: '640 MT/mo', type: 'buy' },
+        ];
+
+        const suppliers = [
+            { rank: 1, name: 'SteelKraft Scrap Pvt', location: 'Rajkot, Gujarat', vol: '⭐ 4.95 / 5.0', type: 'sell' },
+            { rank: 2, name: 'BharatMetal Dealers', location: 'Jaipur, Rajasthan', vol: '⭐ 4.92 / 5.0', type: 'sell' },
+            { rank: 3, name: 'GreenScrap India', location: 'Pune, Maharashtra', vol: '⭐ 4.88 / 5.0', type: 'sell' },
+            { rank: 4, name: 'EcoPlast Suppliers', location: 'Surat, Gujarat', vol: '⭐ 4.85 / 5.0', type: 'sell' },
+            { rank: 5, name: 'Northern Wire Scrap', location: 'Ludhiana, Punjab', vol: '⭐ 4.82 / 5.0', type: 'export' },
+            { rank: 6, name: 'Chennai Metal Hub', location: 'Chennai, Tamil Nadu', vol: '⭐ 4.79 / 5.0', type: 'sell' },
+            { rank: 7, name: 'Kolkata Paper Mart', location: 'Kolkata, WB', vol: '⭐ 4.76 / 5.0', type: 'sell' },
+        ];
+
+        const promos = [
+            { company: 'Tata Steel Recycling Pvt Ltd', title: 'New Batch — TMT Fe-500D @ ₹52,800/MT', desc: 'Fresh rolling stock available. Min order 50 MT. Free logistics within 300 km for orders above 200 MT. ISO certified.', price: '₹52,800/MT', tag: 'new', color: '#1a237e', icon: '🏗️' },
+            { company: 'EcoPlas India Ltd', title: 'Launch: Food-Grade Recycled PET Pellets', desc: 'Introducing our new food-safe PET pellets from 100% recycled clear bottles. BIS approved. Available in 25 KG bags.', price: '₹68/KG', tag: 'launch', color: '#006064', icon: '🧴' },
+            { company: 'Global Copper Exchange', title: 'Bulk Copper Wire — Export Quality', desc: 'Ready stock of 18 MT bare bright copper wire. Export documentation ready. Best rates for Q1 bulk bookings.', price: '₹7,050/KG', tag: 'deal', color: '#bf360c', icon: '🟠' },
+            { company: 'BioRubber Innovations', title: 'Crumb Rubber — New Processing Plant Online', desc: 'Expanded capacity! Now processing 500 MT/month. Fine crumb 0.5mm and coarse 2mm available. Supply 48 hours anywhere in India.', price: '₹50/KG', tag: 'launch', color: '#1b5e20', icon: '🔧' },
+            { company: 'EcoChip Recyclers', title: 'PCB / E-Waste Collection Drive — All India', desc: 'Launching pan-India e-waste pickup. Corporate clients preferred. Volume discounts above 500 KG. Certified destruction certificate provided.', price: '₹800/KG', tag: 'new', color: '#4a148c', icon: '💻' },
+            { company: 'BuildMetal Corp', title: 'Export Offer: HMS 1&2 Iron Scrap to UAE/Vietnam', desc: '260 MT HMS scrap ready for export. Loading port: JNPT. Rates as per LME. LC/TT accepted. Delivery 12-14 days.', price: '₹31,200/MT', tag: 'export', color: '#37474f', icon: '🔩' },
+        ];
+
+        /* ────── RENDER ────── */
+        let currentCat = 'all';
+        let currentRegion = 'India';
+
+        function sparkColor(m) { return m.falling ? '#ff3d57' : '#00e676' }
+
+        function renderMarket() {
+            const grid = document.getElementById('marketGrid');
+            const filtered = currentCat === 'all' ? materials : materials.filter(m => m.cat === currentCat);
+            grid.innerHTML = filtered.map(m => `
+    <div class="mcard${m.falling ? ' falling' : ''}" data-cat="${m.cat}">
+      <div class="mcard-top">
+        <div class="mcard-name">
+          <div class="mcard-icon" style="background:${m.color}22;border:1px solid ${m.color}44">${m.icon}</div>
+          <div>
+            <div class="mcard-label">${m.name}</div>
+            <div class="mcard-sub">${m.grade} · ${currentRegion}</div>
+          </div>
+        </div>
+        <div class="mcard-price-block">
+          <div class="mcard-price">₹${m.price.toLocaleString('en-IN')}</div>
+          <div class="mcard-unit">${m.unit}</div>
+          <div class="mcard-change ${m.falling ? 'dn-change' : 'up-change'}">${m.change > 0 ? '+' : ''}${m.change}% today</div>
+        </div>
+      </div>
+      <div class="spark">${m.spark.map((v, i) => `<div class="spark-bar" style="height:${v}%;background:${sparkColor(m)};opacity:${0.4 + i * 0.075}"></div>`).join('')}</div>
+      <div class="mcard-bottom">
+        <div class="mcard-stat"><div class="mcard-stat-val">${m.vol}</div><div class="mcard-stat-lbl">Today Vol</div></div>
+        <div class="mcard-stat"><div class="mcard-stat-val">${m.avail}</div><div class="mcard-stat-lbl">Availability</div></div>
+        <div class="mcard-stat"><div class="mcard-stat-val">${m.buyers}</div><div class="mcard-stat-lbl">Active Buyers</div></div>
+      </div>
+    </div>
+  `).join('');
+        }
+
+        function renderRankings() {
+            const bl = document.getElementById('buyersList');
+            bl.innerHTML = buyers.map(b => `
+    <div class="rank-row">
+      <div class="rank-num ${b.rank <= 3 ? 'top' : ''}">${b.rank <= 3 ? ['🥇', '🥈', '🥉'][b.rank - 1] : b.rank}</div>
+      <div class="rank-info"><div class="name">${b.name}</div><div class="location">📍 ${b.location}</div></div>
+      <div class="rank-vol">${b.vol}</div>
+      <div class="rank-badge ${b.type === 'export' ? 'badge-export' : 'badge-buy'}">${b.type.toUpperCase()}</div>
+    </div>
+  `).join('');
+
+            const sl = document.getElementById('suppliersList');
+            sl.innerHTML = suppliers.map(s => `
+    <div class="rank-row">
+      <div class="rank-num ${s.rank <= 3 ? 'top' : ''}">${s.rank <= 3 ? ['🥇', '🥈', '🥉'][s.rank - 1] : s.rank}</div>
+      <div class="rank-info"><div class="name">${s.name}</div><div class="location">📍 ${s.location}</div></div>
+      <div class="rank-vol">${s.vol}</div>
+      <div class="rank-badge badge-sell">SELL</div>
+    </div>
+  `).join('');
+        }
+
+        const tagClass = { new: 'tag-new', launch: 'tag-launch', deal: 'tag-deal', export: 'tag-export' };
+        const tagLabel = { new: 'NEW STOCK', launch: '🚀 LAUNCH', deal: '🔥 HOT DEAL', export: 'EXPORT READY' };
+
+        function renderPromos() {
+            const grid = document.getElementById('promoGrid');
+            grid.innerHTML = promos.map(p => `
+    <div class="promo-card">
+      <div class="promo-banner" style="background:linear-gradient(135deg,${p.color}44,${p.color}22)">${p.icon}</div>
+      <div class="promo-body">
+        <div class="promo-company">${p.company}</div>
+        <div class="promo-title">${p.title}</div>
+        <div class="promo-desc">${p.desc}</div>
+        <div class="promo-meta">
+          <div class="promo-price">${p.price}</div>
+          <span class="promo-tag ${tagClass[p.tag]}">${tagLabel[p.tag]}</span>
+        </div>
+        <a href="#" class="promo-btn">CONTACT COMPANY →</a>
+      </div>
+    </div>
+  `).join('');
+        }
+
+        /* ────── TICKER ────── */
+        function buildTicker() {
+            const items = materials.map(m => `<span class="${m.falling ? 'dn' : 'up'}">${m.icon} ${m.name}: ₹${m.price.toLocaleString('en-IN')}/${m.unit.split(' ').pop()} (${m.change > 0 ? '+' : ''}${m.change}%)</span>`).join('');
+            const t = document.getElementById('ticker');
+            t.innerHTML = items + items;
+        }
+
+        /* ────── FILTERS ────── */
+        function filterMat(cat, btn) {
+            currentCat = cat;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            renderMarket();
+        }
+
+        function setRegion(r, btn) {
+            currentRegion = r;
+            document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            // Simulate price shift for different regions
+            materials.forEach(m => {
+                const shift = (Math.random() - 0.48) * 0.02;
+                m.price = Math.round(m.price * (1 + shift));
+                m.change = parseFloat((m.change + (Math.random() - 0.5) * 0.5).toFixed(1));
+                m.falling = m.change < 0;
+            });
+            renderMarket();
+            buildTicker();
+        }
+
+        function refreshPrices() {
+            materials.forEach(m => {
+                const drift = (Math.random() - 0.48) * 0.015;
+                m.price = Math.round(m.price * (1 + drift));
+                m.change = parseFloat((m.change + (Math.random() - 0.5) * 0.4).toFixed(1));
+                m.falling = m.change < 0;
+                m.spark = [...m.spark.slice(1), Math.min(95, Math.max(20, m.spark[m.spark.length - 1] + (Math.random() - 0.5) * 10))];
+            });
+            renderMarket();
+            buildTicker();
+            document.getElementById('update-time').textContent = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        /* ────── CLOCK ────── */
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').textContent =
+                now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Kolkata' }) + ' IST';
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        document.getElementById('update-time').textContent = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+        /* Auto-refresh every 30s */
+        setInterval(refreshPrices, 30000);
+
+        /* ────── SCROLL REVEAL ────── */
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in') });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+        /* ────── INIT ────── */
+        renderMarket();
+        renderRankings();
+        renderPromos();
+        buildTicker();
+    </script>
+</body>
+
+</html>
