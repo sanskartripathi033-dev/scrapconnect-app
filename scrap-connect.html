@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ScrapConnect — Explore</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@400;600;700;800&display=swap"
         rel="stylesheet" />
@@ -523,26 +524,70 @@
 
         /* MODAL */
         .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
-            z-index: 2000; display: none; align-items: center; justify-content: center; padding: 2rem
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem
         }
+
         .modal-card {
-            background: var(--bg2); border: 1px solid var(--border); border-radius: 24px;
-            width: 100%; max-width: 500px; padding: 2.5rem; position: relative;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5)
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 500px;
+            padding: 2.5rem;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5)
         }
-        .close-modal { position: absolute; top: 1.5rem; right: 1.5rem; cursor: pointer; color: var(--muted); font-size: 1.5rem }
-        .modal-avatar { width: 80px; height: 80px; border-radius: 20px; font-size: 2.5rem; margin-bottom: 1.5rem }
-        
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 1.5rem
+        }
+
+        .modal-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem
+        }
+
         .search-box {
-            background: rgba(255,255,255,.05); border: 1px solid var(--border); border-radius: 10px;
-            padding: .6rem 1rem; color: #fff; font-family: 'Syne'; font-size: .85rem; width: 250px; outline: none
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: .6rem 1rem;
+            color: #fff;
+            font-family: 'Syne';
+            font-size: .85rem;
+            width: 250px;
+            outline: none
         }
-        .search-box:focus { border-color: var(--blue) }
-        
+
+        .search-box:focus {
+            border-color: var(--blue)
+        }
+
         .sort-sel {
-            background: rgba(255,255,255,.05); border: 1px solid var(--border); border-radius: 10px;
-            padding: .6rem; color: var(--muted); font-size: .75rem; cursor: pointer; outline: none
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: .6rem;
+            color: var(--muted);
+            font-size: .75rem;
+            cursor: pointer;
+            outline: none
         }
     </style>
 </head>
@@ -590,7 +635,9 @@
             <div class="section-header">
                 <div>
                     <h2>Regional Operations</h2>
-                    <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--muted);margin-top:.3rem">Your current active business zones</div>
+                    <div
+                        style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--muted);margin-top:.3rem">
+                        Your current active business zones</div>
                 </div>
             </div>
 
@@ -598,17 +645,25 @@
             <div class="section-header" style="margin-top: 2rem">
                 <div>
                     <h2>Nearby Hotspots</h2>
-                    <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--muted);margin-top:.3rem">Trending industrial zones in your area</div>
+                    <div
+                        style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--muted);margin-top:.3rem">
+                        Trending industrial zones in your area</div>
                 </div>
             </div>
-            
-            <div style="background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; margin-bottom: 3rem; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; height: 300px;">
-                <div style="position: absolute; inset: 0; opacity: 0.1; background-image: radial-gradient(circle, var(--blue) 1px, transparent 1px); background-size: 20px 20px;"></div>
+
+            <div
+                style="background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; margin-bottom: 3rem; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; height: 300px;">
+                <div
+                    style="position: absolute; inset: 0; opacity: 0.1; background-image: radial-gradient(circle, var(--blue) 1px, transparent 1px); background-size: 20px 20px;">
+                </div>
                 <div style="text-align: center; z-index: 1;">
                     <div style="font-size: 3rem; margin-bottom: 1rem;">📍</div>
                     <h3 style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px;">Live Activity Map</h3>
-                    <p style="color: var(--muted); font-size: 0.85rem;">High trading activity detected in <strong>Okhla Industrial Area</strong> and <strong>Gurgaon Sector 18</strong>.</p>
-                    <button style="margin-top: 1.5rem; padding: 0.6rem 1.5rem; background: var(--blue); color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">View Heatmap</button>
+                    <p style="color: var(--muted); font-size: 0.85rem;">High trading activity detected in <strong>Okhla
+                            Industrial Area</strong> and <strong>Gurgaon Sector 18</strong>.</p>
+                    <button
+                        style="margin-top: 1.5rem; padding: 0.6rem 1.5rem; background: var(--blue); color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">View
+                        Heatmap</button>
                 </div>
             </div>
 
@@ -620,7 +675,8 @@
                         id="memberCount">0 members</div>
                 </div>
                 <div style="display:flex; gap:1rem; align-items:center">
-                    <input type="text" class="search-box" id="dirSearch" placeholder="Search name, location, or business..." oninput="renderDirectory()">
+                    <input type="text" class="search-box" id="dirSearch"
+                        placeholder="Search name, location, or business..." oninput="renderDirectory()">
                     <select class="sort-sel" id="dirSort" onchange="renderDirectory()">
                         <option value="new">Recently Joined</option>
                         <option value="name">Alphabetical</option>
@@ -700,21 +756,21 @@
             users = JSON.parse(localStorage.getItem('sc_users') || '[]');
             const search = document.getElementById('dirSearch').value.toLowerCase();
             const sort = document.getElementById('dirSort').value;
-            
+
             let filtered = dirFilter === 'all' ? users : users.filter(u => u.role === dirFilter);
-            
+
             if (search) {
-                filtered = filtered.filter(u => 
-                    u.fullName.toLowerCase().includes(search) || 
+                filtered = filtered.filter(u =>
+                    u.fullName.toLowerCase().includes(search) ||
                     (u.business && u.business.toLowerCase().includes(search)) ||
                     (u.city && u.city.toLowerCase().includes(search))
                 );
             }
 
             if (sort === 'name') {
-                filtered.sort((a,b) => a.fullName.localeCompare(b.fullName));
+                filtered.sort((a, b) => a.fullName.localeCompare(b.fullName));
             } else {
-                filtered.sort((a,b) => new Date(b.joinedAt) - new Date(a.joinedAt));
+                filtered.sort((a, b) => new Date(b.joinedAt) - new Date(a.joinedAt));
             }
 
             document.getElementById('memberCount').textContent = filtered.length + ' member' + (filtered.length !== 1 ? 's' : '');

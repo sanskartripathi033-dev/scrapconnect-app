@@ -5,80 +5,372 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ScrapConnect — Invest in Recycling</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@400;600;700;800&display=swap"
         rel="stylesheet" />
     <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
-        :root {
-            --bg: #06080d; --bg2: #0c0f18; --card: #0f1320; --border: rgba(255, 255, 255, .07);
-            --green: #00e676; --red: #ff3d57; --gold: #ffd740; --blue: #448aff;
-            --text: #e8ecf5; --muted: #5a6275; --white: #fff; --sidebar-w: 240px
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
         }
-        html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif }
+
+        :root {
+            --bg: #06080d;
+            --bg2: #0c0f18;
+            --card: #0f1320;
+            --border: rgba(255, 255, 255, .07);
+            --green: #00e676;
+            --red: #ff3d57;
+            --gold: #ffd740;
+            --blue: #448aff;
+            --text: #e8ecf5;
+            --muted: #5a6275;
+            --white: #fff;
+            --sidebar-w: 240px
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Syne', sans-serif
+        }
+
         body::before {
-            content: ''; position: fixed; inset: 0;
+            content: '';
+            position: fixed;
+            inset: 0;
             background-image: linear-gradient(rgba(255, 255, 255, .025) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .025) 1px, transparent 1px);
-            background-size: 40px 40px; pointer-events: none; z-index: 0
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0
         }
 
         .sidebar {
-            position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh;
-            background: var(--bg2); border-right: 1px solid var(--border); z-index: 100;
-            display: flex; flex-direction: column; padding: 1.5rem 0
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-w);
+            height: 100vh;
+            background: var(--bg2);
+            border-right: 1px solid var(--border);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem 0
         }
-        .sidebar-logo { padding: 0 1.5rem 1.5rem; border-bottom: 1px solid var(--border); margin-bottom: 1rem }
-        .sidebar-logo .brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 3px; color: var(--gold); text-decoration: none }
-        .sidebar-logo .brand span { color: var(--green) }
-        .sidebar-logo .role-tag { font-family: 'IBM Plex Mono', monospace; font-size: .62rem; color: var(--muted); letter-spacing: 1px; margin-top: .2rem }
-        .nav-section { padding: .4rem 1rem; font-family: 'IBM Plex Mono', monospace; font-size: .6rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: .5rem }
-        .nav-item { display: flex; align-items: center; gap: .75rem; padding: .7rem 1.5rem; font-size: .85rem; color: var(--muted); cursor: pointer; transition: all .2s; border-left: 3px solid transparent; text-decoration: none }
-        .nav-item:hover { color: var(--text); background: rgba(255, 255, 255, .03) }
-        .nav-item.active { color: var(--gold); background: rgba(255, 215, 64, .06); border-left-color: var(--gold) }
-        .nav-item .icon { font-size: 1rem; width: 20px; text-align: center }
-        .sidebar-bottom { margin-top: auto; padding: 1rem 1.5rem; border-top: 1px solid var(--border) }
-        .user-pill { display: flex; align-items: center; gap: .75rem }
-        .user-avatar { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--green), var(--gold)); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: #000; flex-shrink: 0 }
-        .user-name { font-size: .82rem; font-weight: 600; color: var(--text) }
-        .user-role { font-family: 'IBM Plex Mono', monospace; font-size: .62rem; color: var(--muted) }
-        .logout-btn { margin-top: .75rem; width: 100%; padding: .5rem; background: rgba(255, 61, 87, .08); border: 1px solid rgba(255, 61, 87, .2); border-radius: 8px; color: var(--red); font-family: 'Syne', sans-serif; font-size: .78rem; cursor: pointer; transition: all .2s }
-        .logout-btn:hover { background: rgba(255, 61, 87, .15) }
 
-        .main { margin-left: var(--sidebar-w); height: 100vh; overflow-y: auto; position: relative; z-index: 1 }
-        .topbar { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: .9rem 2rem; background: rgba(6, 8, 13, .9); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border) }
-        .topbar h1 { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px }
-        .clock { font-family: 'IBM Plex Mono', monospace; font-size: .72rem; color: var(--muted) }
+        .sidebar-logo {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem
+        }
 
-        .page { padding: 2rem; display: flex; flex-direction: column }
-        
+        .sidebar-logo .brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-decoration: none
+        }
+
+        .sidebar-logo .brand span {
+            color: var(--green)
+        }
+
+        .sidebar-logo .role-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .62rem;
+            color: var(--muted);
+            letter-spacing: 1px;
+            margin-top: .2rem
+        }
+
+        .nav-section {
+            padding: .4rem 1rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .6rem;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: .5rem
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: .7rem 1.5rem;
+            font-size: .85rem;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all .2s;
+            border-left: 3px solid transparent;
+            text-decoration: none
+        }
+
+        .nav-item:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, .03)
+        }
+
+        .nav-item.active {
+            color: var(--gold);
+            background: rgba(255, 215, 64, .06);
+            border-left-color: var(--gold)
+        }
+
+        .nav-item .icon {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border)
+        }
+
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: .75rem
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--green), var(--gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            color: #000;
+            flex-shrink: 0
+        }
+
+        .user-name {
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--text)
+        }
+
+        .user-role {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .62rem;
+            color: var(--muted)
+        }
+
+        .logout-btn {
+            margin-top: .75rem;
+            width: 100%;
+            padding: .5rem;
+            background: rgba(255, 61, 87, .08);
+            border: 1px solid rgba(255, 61, 87, .2);
+            border-radius: 8px;
+            color: var(--red);
+            font-family: 'Syne', sans-serif;
+            font-size: .78rem;
+            cursor: pointer;
+            transition: all .2s
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 61, 87, .15)
+        }
+
+        .main {
+            margin-left: var(--sidebar-w);
+            height: 100vh;
+            overflow-y: auto;
+            position: relative;
+            z-index: 1
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .9rem 2rem;
+            background: rgba(6, 8, 13, .9);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border)
+        }
+
+        .topbar h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 2px
+        }
+
+        .clock {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .72rem;
+            color: var(--muted)
+        }
+
+        .page {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column
+        }
+
         /* PORTFOLIO SUMMARY */
         .portfolio-hero {
-            background: linear-gradient(135deg, var(--blue), #1e2a4a); border-radius: 24px; padding: 3rem; margin-bottom: 2.5rem;
-            display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden;
+            background: linear-gradient(135deg, var(--blue), #1e2a4a);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
         }
-        .portfolio-hero::after { content: '💰'; position: absolute; right: -20px; bottom: -20px; font-size: 12rem; opacity: 0.1 }
-        .ph-lbl { font-family: 'IBM Plex Mono', monospace; font-size: .8rem; color: rgba(255,255,255,.7); letter-spacing: 2px; text-transform: uppercase }
-        .ph-val { font-family: 'Bebas Neue', sans-serif; font-size: 4.5rem; color: #fff; letter-spacing: 4px; line-height: 1 }
-        .ph-trend { display: inline-flex; align-items: center; gap: .5rem; padding: .4rem 1rem; background: rgba(0,230,118,.2); border-radius: 10px; color: var(--green); font-weight: 700; margin-top: 1rem }
+
+        .portfolio-hero::after {
+            content: '💰';
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            font-size: 12rem;
+            opacity: 0.1
+        }
+
+        .ph-lbl {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .8rem;
+            color: rgba(255, 255, 255, .7);
+            letter-spacing: 2px;
+            text-transform: uppercase
+        }
+
+        .ph-val {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4.5rem;
+            color: #fff;
+            letter-spacing: 4px;
+            line-height: 1
+        }
+
+        .ph-trend {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .4rem 1rem;
+            background: rgba(0, 230, 118, .2);
+            border-radius: 10px;
+            color: var(--green);
+            font-weight: 700;
+            margin-top: 1rem
+        }
 
         /* INVESTMENT GRID */
-        .inv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem }
-        .inv-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; display: flex; flex-direction: column; transition: all .3s ease }
-        .inv-card:hover { transform: translateY(-8px); border-color: var(--gold) }
-        .inv-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 2px; margin-bottom: 1rem; color: var(--gold) }
-        .inv-stat { display: flex; justify-content: space-between; margin-bottom: .8rem; font-size: .85rem }
-        .inv-stat span { color: var(--muted) }
-        .inv-stat strong { color: var(--text) }
-        
-        .progress-track { height: 8px; background: rgba(255,255,255,.05); border-radius: 4px; margin: 1.5rem 0; overflow: hidden }
-        .progress-fill { height: 100%; background: var(--gold) }
-        
-        .inv-btn { width: 100%; padding: 1rem; border: none; border-radius: 12px; font-family: 'Syne', sans-serif; font-weight: 800; background: var(--gold); color: #000; cursor: pointer; transition: all .2s; margin-top: auto }
-        .inv-btn:hover { box-shadow: 0 10px 30px rgba(255,215,64,0.3) }
-        
-        .badge { font-family: 'IBM Plex Mono', monospace; font-size: .65rem; padding: .2rem .6rem; border-radius: 4px; text-transform: uppercase; font-weight: 700 }
-        .badge-op { background: rgba(0,230,118,.1); color: var(--green) }
-        .badge-close { background: rgba(255,61,87,.1); color: var(--red) }
+        .inv-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem
+        }
+
+        .inv-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: all .3s ease
+        }
+
+        .inv-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--gold)
+        }
+
+        .inv-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            color: var(--gold)
+        }
+
+        .inv-stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: .8rem;
+            font-size: .85rem
+        }
+
+        .inv-stat span {
+            color: var(--muted)
+        }
+
+        .inv-stat strong {
+            color: var(--text)
+        }
+
+        .progress-track {
+            height: 8px;
+            background: rgba(255, 255, 255, .05);
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            overflow: hidden
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gold)
+        }
+
+        .inv-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            background: var(--gold);
+            color: #000;
+            cursor: pointer;
+            transition: all .2s;
+            margin-top: auto
+        }
+
+        .inv-btn:hover {
+            box-shadow: 0 10px 30px rgba(255, 215, 64, 0.3)
+        }
+
+        .badge {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .65rem;
+            padding: .2rem .6rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: 700
+        }
+
+        .badge-op {
+            background: rgba(0, 230, 118, .1);
+            color: var(--green)
+        }
+
+        .badge-close {
+            background: rgba(255, 61, 87, .1);
+            color: var(--red)
+        }
     </style>
 </head>
 
@@ -103,7 +395,10 @@
         <div class="sidebar-bottom">
             <div class="user-pill">
                 <div class="user-avatar" id="sidebarAvatar">?</div>
-                <div><div class="user-name" id="sidebarName">Loading...</div><div class="user-role" id="sidebarRoleSub">—</div></div>
+                <div>
+                    <div class="user-name" id="sidebarName">Loading...</div>
+                    <div class="user-role" id="sidebarRoleSub">—</div>
+                </div>
             </div>
             <button class="logout-btn" onclick="logout()">Sign Out</button>
         </div>
@@ -111,7 +406,9 @@
 
     <main class="main">
         <div class="topbar">
-            <div><h1>Investments & Portfolios</h1></div>
+            <div>
+                <h1>Investments & Portfolios</h1>
+            </div>
             <div class="clock" id="clock">00:00:00 IST</div>
         </div>
 
@@ -123,49 +420,66 @@
                     <div class="ph-trend">↑ +14.2% Net Growth</div>
                 </div>
                 <div style="text-align: right">
-                    <div style="font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:rgba(255,255,255,.6)">Current Assets</div>
+                    <div style="font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:rgba(255,255,255,.6)">
+                        Current Assets</div>
                     <div style="font-size: 1.5rem; font-weight: 700; margin-top: .5rem">1,240 MT Material</div>
-                    <button style="margin-top: 1rem; padding: .6rem 1.2rem; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); color:#fff; border-radius:10px; cursor: pointer; font-size:.8rem">Download Report</button>
+                    <button
+                        style="margin-top: 1rem; padding: .6rem 1.2rem; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); color:#fff; border-radius:10px; cursor: pointer; font-size:.8rem">Download
+                        Report</button>
                 </div>
             </div>
 
-            <h2 style="font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:2px; margin-bottom: 2rem">ACTIVE <span>OPPORTUNITIES</span></h2>
-            
+            <h2 style="font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:2px; margin-bottom: 2rem">
+                ACTIVE <span>OPPORTUNITIES</span></h2>
+
             <div class="inv-grid">
                 <div class="inv-card">
                     <div class="badge badge-op">Open for Funding</div>
                     <h3>Okhla Smelter expansion</h3>
-                    <p style="font-size:.85rem; color:var(--muted); margin-bottom: 1.5rem">Joint venture for state-of-the-art induction furnace upgrade. Capacity increase from 20MT to 50MT/day.</p>
+                    <p style="font-size:.85rem; color:var(--muted); margin-bottom: 1.5rem">Joint venture for
+                        state-of-the-art induction furnace upgrade. Capacity increase from 20MT to 50MT/day.</p>
                     <div class="inv-stat"><span>Required</span><strong>₹45.0 L</strong></div>
                     <div class="inv-stat"><span>Min. Entry</span><strong>₹2.5 L</strong></div>
                     <div class="inv-stat"><span>Expected ROI</span><strong>18% p.a.</strong></div>
-                    <div class="progress-track"><div class="progress-fill" style="width: 72%"></div></div>
-                    <div class="inv-stat"><span style="font-size: .65rem">72% Funded</span><strong style="font-size: .65rem">8 Days Left</strong></div>
+                    <div class="progress-track">
+                        <div class="progress-fill" style="width: 72%"></div>
+                    </div>
+                    <div class="inv-stat"><span style="font-size: .65rem">72% Funded</span><strong
+                            style="font-size: .65rem">8 Days Left</strong></div>
                     <button class="inv-btn" onclick="alert('Investment proposal sent!')">INVEST NOW</button>
                 </div>
 
                 <div class="inv-card">
                     <div class="badge badge-op">High Yield</div>
                     <h3>Mixed Copper Bulk Batch</h3>
-                    <p style="font-size:.85rem; color:var(--muted); margin-bottom: 1.5rem">Equity investment in 18MT copper scrap import batch from UAE. Fast turnaround, high liquidity.</p>
+                    <p style="font-size:.85rem; color:var(--muted); margin-bottom: 1.5rem">Equity investment in 18MT
+                        copper scrap import batch from UAE. Fast turnaround, high liquidity.</p>
                     <div class="inv-stat"><span>Required</span><strong>₹1.2 Cr</strong></div>
                     <div class="inv-stat"><span>Min. Entry</span><strong>₹10.0 L</strong></div>
                     <div class="inv-stat"><span>Expected ROI</span><strong>12% (3 Mo)</strong></div>
-                    <div class="progress-track"><div class="progress-fill" style="width: 45%"></div></div>
-                    <div class="inv-stat"><span style="font-size: .65rem">45% Funded</span><strong style="font-size: .65rem">14 Days Left</strong></div>
+                    <div class="progress-track">
+                        <div class="progress-fill" style="width: 45%"></div>
+                    </div>
+                    <div class="inv-stat"><span style="font-size: .65rem">45% Funded</span><strong
+                            style="font-size: .65rem">14 Days Left</strong></div>
                     <button class="inv-btn" onclick="alert('Investment proposal sent!')">INVEST NOW</button>
                 </div>
 
                 <div class="inv-card">
                     <div class="badge badge-close">Waitlist Only</div>
                     <h3>EcoPlast Sorting Plant</h3>
-                    <p style="font-size:.85rem; color:var(--muted); margin-bottom: 1.5rem">New AI-powered plastic sorting facility in Pune. Long term equity available for strategic partners.</p>
+                    <p style="font-size:.85rem; color:var(--muted); margin-bottom: 1.5rem">New AI-powered plastic
+                        sorting facility in Pune. Long term equity available for strategic partners.</p>
                     <div class="inv-stat"><span>Required</span><strong>₹3.5 Cr</strong></div>
                     <div class="inv-stat"><span>Min. Entry</span><strong>₹25.0 L</strong></div>
                     <div class="inv-stat"><span>Expected ROI</span>#Equity</div>
-                    <div class="progress-track"><div class="progress-fill" style="width: 100%; background: var(--red)"></div></div>
-                    <div class="inv-stat"><span style="font-size: .65rem">100% Subscribed</span><strong style="font-size: .65rem">CLOSED</strong></div>
-                    <button class="inv-btn" style="background:var(--bg2); color:var(--muted); cursor:not-allowed">JOIN WAITLIST</button>
+                    <div class="progress-track">
+                        <div class="progress-fill" style="width: 100%; background: var(--red)"></div>
+                    </div>
+                    <div class="inv-stat"><span style="font-size: .65rem">100% Subscribed</span><strong
+                            style="font-size: .65rem">CLOSED</strong></div>
+                    <button class="inv-btn" style="background:var(--bg2); color:var(--muted); cursor:not-allowed">JOIN
+                        WAITLIST</button>
                 </div>
             </div>
         </div>

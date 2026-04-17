@@ -5,66 +5,320 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About ScrapConnect — Our Mission</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@400;600;700;800&display=swap"
         rel="stylesheet" />
     <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
-        :root {
-            --bg: #06080d; --bg2: #0c0f18; --card: #0f1320; --border: rgba(255, 255, 255, .07);
-            --green: #00e676; --red: #ff3d57; --gold: #ffd740; --blue: #448aff;
-            --text: #e8ecf5; --muted: #5a6275; --white: #fff; --sidebar-w: 240px
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
         }
-        html, body { min-height: 100%; height: auto; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; overflow-x: hidden }
+
+        :root {
+            --bg: #06080d;
+            --bg2: #0c0f18;
+            --card: #0f1320;
+            --border: rgba(255, 255, 255, .07);
+            --green: #00e676;
+            --red: #ff3d57;
+            --gold: #ffd740;
+            --blue: #448aff;
+            --text: #e8ecf5;
+            --muted: #5a6275;
+            --white: #fff;
+            --sidebar-w: 240px
+        }
+
+        html,
+        body {
+            min-height: 100%;
+            height: auto;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Syne', sans-serif;
+            overflow-x: hidden
+        }
+
         body::before {
-            content: ''; position: fixed; inset: 0;
+            content: '';
+            position: fixed;
+            inset: 0;
             background-image: linear-gradient(rgba(255, 255, 255, .025) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .025) 1px, transparent 1px);
-            background-size: 40px 40px; pointer-events: none; z-index: 0
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0
         }
 
         .sidebar {
-            position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh;
-            background: var(--bg2); border-right: 1px solid var(--border); z-index: 100;
-            display: flex; flex-direction: column; padding: 1.5rem 0
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-w);
+            height: 100vh;
+            background: var(--bg2);
+            border-right: 1px solid var(--border);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem 0
         }
-        .sidebar-logo { padding: 0 1.5rem 1.5rem; border-bottom: 1px solid var(--border); margin-bottom: 1rem }
-        .sidebar-logo .brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 3px; color: var(--gold); text-decoration: none }
-        .sidebar-logo .brand span { color: var(--green) }
-        .sidebar-logo .role-tag { font-family: 'IBM Plex Mono', monospace; font-size: .62rem; color: var(--muted); letter-spacing: 1px; margin-top: .2rem }
-        .nav-section { padding: .4rem 1rem; font-family: 'IBM Plex Mono', monospace; font-size: .6rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: .5rem }
-        .nav-item { display: flex; align-items: center; gap: .75rem; padding: .7rem 1.5rem; font-size: .85rem; color: var(--muted); cursor: pointer; transition: all .2s; border-left: 3px solid transparent; text-decoration: none }
-        .nav-item:hover { color: var(--text); background: rgba(255, 255, 255, .03) }
-        .nav-item.active { color: var(--gold); background: rgba(255, 215, 64, .06); border-left-color: var(--gold) }
-        .nav-item .icon { font-size: 1rem; width: 20px; text-align: center }
-        .sidebar-bottom { margin-top: auto; padding: 1rem 1.5rem; border-top: 1px solid var(--border) }
-        .user-pill { display: flex; align-items: center; gap: .75rem }
-        .user-avatar { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--green), var(--gold)); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: #000; flex-shrink: 0 }
-        .user-name { font-size: .82rem; font-weight: 600; color: var(--text) }
-        .user-role { font-family: 'IBM Plex Mono', monospace; font-size: .62rem; color: var(--muted) }
-        .logout-btn { margin-top: .75rem; width: 100%; padding: .5rem; background: rgba(255, 61, 87, .08); border: 1px solid rgba(255, 61, 87, .2); border-radius: 8px; color: var(--red); font-family: 'Syne', sans-serif; font-size: .78rem; cursor: pointer; transition: all .2s }
-        .logout-btn:hover { background: rgba(255, 61, 87, .15) }
 
-        .main { margin-left: var(--sidebar-w); min-height: 100vh; position: relative; z-index: 1 }
-        .hero { padding: 8rem 4rem 4rem; text-align: center; background: radial-gradient(circle at center, rgba(0, 230, 118, 0.05) 0%, transparent 70%) }
-        .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; letter-spacing: 8px; line-height: 1; margin-bottom: 1rem; color: var(--white) }
-        .hero h1 span { color: var(--green) }
-        .hero p { max-width: 600px; margin: 0 auto 2rem; color: var(--muted); line-height: 1.6; font-size: 1.1rem }
+        .sidebar-logo {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem
+        }
 
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; padding: 4rem; max-width: 1200px; margin: 0 auto }
-        .feature-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 2.5rem; transition: all .3s ease }
-        .feature-card:hover { transform: translateY(-10px); border-color: var(--blue); box-shadow: 0 20px 50px rgba(0,0,0,0.5) }
-        .f-icon { font-size: 2.5rem; margin-bottom: 1.5rem; display: block }
-        .feature-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 2px; margin-bottom: 1rem; color: var(--gold) }
-        .feature-card p { font-size: .9rem; color: var(--muted); line-height: 1.6 }
+        .sidebar-logo .brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-decoration: none
+        }
 
-        .impact-section { background: var(--bg2); padding: 6rem 4rem; text-align: center; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border) }
-        .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1100px; margin: 3rem auto 0 }
-        .stat-item h4 { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--green) }
-        .stat-item p { font-family: 'IBM Plex Mono', monospace; font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px }
+        .sidebar-logo .brand span {
+            color: var(--green)
+        }
 
-        .cta { padding: 6rem 4rem; text-align: center }
-        .cta-btn { display: inline-block; padding: 1.2rem 3rem; background: var(--green); color: #000; font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; border-radius: 12px; text-decoration: none; transition: all .2s; box-shadow: 0 10px 30px rgba(0,230,118,0.2) }
-        .cta-btn:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 15px 40px rgba(0,230,118,0.4) }
+        .sidebar-logo .role-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .62rem;
+            color: var(--muted);
+            letter-spacing: 1px;
+            margin-top: .2rem
+        }
+
+        .nav-section {
+            padding: .4rem 1rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .6rem;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: .5rem
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: .7rem 1.5rem;
+            font-size: .85rem;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all .2s;
+            border-left: 3px solid transparent;
+            text-decoration: none
+        }
+
+        .nav-item:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, .03)
+        }
+
+        .nav-item.active {
+            color: var(--gold);
+            background: rgba(255, 215, 64, .06);
+            border-left-color: var(--gold)
+        }
+
+        .nav-item .icon {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border)
+        }
+
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: .75rem
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--green), var(--gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            color: #000;
+            flex-shrink: 0
+        }
+
+        .user-name {
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--text)
+        }
+
+        .user-role {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .62rem;
+            color: var(--muted)
+        }
+
+        .logout-btn {
+            margin-top: .75rem;
+            width: 100%;
+            padding: .5rem;
+            background: rgba(255, 61, 87, .08);
+            border: 1px solid rgba(255, 61, 87, .2);
+            border-radius: 8px;
+            color: var(--red);
+            font-family: 'Syne', sans-serif;
+            font-size: .78rem;
+            cursor: pointer;
+            transition: all .2s
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 61, 87, .15)
+        }
+
+        .main {
+            margin-left: var(--sidebar-w);
+            min-height: 100vh;
+            position: relative;
+            z-index: 1
+        }
+
+        .hero {
+            padding: 8rem 4rem 4rem;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(0, 230, 118, 0.05) 0%, transparent 70%)
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5rem;
+            letter-spacing: 8px;
+            line-height: 1;
+            margin-bottom: 1rem;
+            color: var(--white)
+        }
+
+        .hero h1 span {
+            color: var(--green)
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 1.1rem
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding: 4rem;
+            max-width: 1200px;
+            margin: 0 auto
+        }
+
+        .feature-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all .3s ease
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--blue);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5)
+        }
+
+        .f-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: block
+        }
+
+        .feature-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            color: var(--gold)
+        }
+
+        .feature-card p {
+            font-size: .9rem;
+            color: var(--muted);
+            line-height: 1.6
+        }
+
+        .impact-section {
+            background: var(--bg2);
+            padding: 6rem 4rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border)
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 3rem auto 0
+        }
+
+        .stat-item h4 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--green)
+        }
+
+        .stat-item p {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 2px
+        }
+
+        .cta {
+            padding: 6rem 4rem;
+            text-align: center
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: var(--green);
+            color: #000;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all .2s;
+            box-shadow: 0 10px 30px rgba(0, 230, 118, 0.2)
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 230, 118, 0.4)
+        }
     </style>
 </head>
 
@@ -89,7 +343,10 @@
         <div class="sidebar-bottom">
             <div class="user-pill">
                 <div class="user-avatar" id="sidebarAvatar">?</div>
-                <div><div class="user-name" id="sidebarName">Loading...</div><div class="user-role" id="sidebarRoleSub">—</div></div>
+                <div>
+                    <div class="user-name" id="sidebarName">Loading...</div>
+                    <div class="user-role" id="sidebarRoleSub">—</div>
+                </div>
             </div>
             <button class="logout-btn" onclick="logout()">Sign Out</button>
         </div>
@@ -98,19 +355,22 @@
     <main class="main">
         <section class="hero">
             <h1>DIGITALIZING <span>SCRAP</span></h1>
-            <p>ScrapConnect is India's leading digital exchange for industrial and retail recycling. We connect thousands of sellers, buyers, and transporters through real-time data and AI-driven insights.</p>
+            <p>ScrapConnect is India's leading digital exchange for industrial and retail recycling. We connect
+                thousands of sellers, buyers, and transporters through real-time data and AI-driven insights.</p>
         </section>
 
         <section class="grid">
             <div class="feature-card">
                 <span class="f-icon">🌍</span>
                 <h3>Eco Impact</h3>
-                <p>Reducing carbon footprints by optimizing the circular economy through efficient scrap redistribution.</p>
+                <p>Reducing carbon footprints by optimizing the circular economy through efficient scrap redistribution.
+                </p>
             </div>
             <div class="feature-card">
                 <span class="f-icon">⚛️</span>
                 <h3>AI Analysis</h3>
-                <p>Proprietary scanning technology to identify material grade and estimate value instantly via mobile.</p>
+                <p>Proprietary scanning technology to identify material grade and estimate value instantly via mobile.
+                </p>
             </div>
             <div class="feature-card">
                 <span class="f-icon">🛡️</span>
@@ -120,17 +380,31 @@
         </section>
 
         <section class="impact-section">
-            <h2 style="font-family:'Bebas Neue',sans-serif; font-size:3rem; letter-spacing:4px">OUR PLATFORM <span>IMPACT</span></h2>
+            <h2 style="font-family:'Bebas Neue',sans-serif; font-size:3rem; letter-spacing:4px">OUR PLATFORM
+                <span>IMPACT</span></h2>
             <div class="stat-grid">
-                <div class="stat-item"><h4>₹6.2B</h4><p>TRADED VOLUME</p></div>
-                <div class="stat-item"><h4>42K</h4><p>VERIFIED MEMBERS</p></div>
-                <div class="stat-item"><h4>94%</h4><p>RECYCLING RATE</p></div>
-                <div class="stat-item"><h4>120+</h4><p>CITIES COVERED</p></div>
+                <div class="stat-item">
+                    <h4>₹6.2B</h4>
+                    <p>TRADED VOLUME</p>
+                </div>
+                <div class="stat-item">
+                    <h4>42K</h4>
+                    <p>VERIFIED MEMBERS</p>
+                </div>
+                <div class="stat-item">
+                    <h4>94%</h4>
+                    <p>RECYCLING RATE</p>
+                </div>
+                <div class="stat-item">
+                    <h4>120+</h4>
+                    <p>CITIES COVERED</p>
+                </div>
             </div>
         </section>
 
         <section class="cta">
-            <h2 style="font-family:'Bebas Neue',sans-serif; font-size:2.5rem; margin-bottom: 2rem">READY TO START TRADING?</h2>
+            <h2 style="font-family:'Bebas Neue',sans-serif; font-size:2.5rem; margin-bottom: 2rem">READY TO START
+                TRADING?</h2>
             <a href="dashboard.html" class="cta-btn">GO TO DASHBOARD →</a>
         </section>
     </main>
@@ -140,7 +414,7 @@
         const users = JSON.parse(localStorage.getItem('sc_users') || '[]');
         let currentUser = null;
 
-        if (!session || !session.userId) { 
+        if (!session || !session.userId) {
             // Guest mode or redirect
             document.getElementById('sidebarRole').textContent = 'GUEST';
         } else {
